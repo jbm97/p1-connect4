@@ -1,13 +1,43 @@
 body {
-    text-align: center;
+    background-color: black;
 }
 
 #gameDisplay {
+    position: relative;
     margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
     height: 540px;
     width: 630px;
-    background-color: black;
-    border: 5px solid blue;
+    background-color: blue;
+    border: 5px solid purple;
+}
+
+#start {
+    position: absolute;
+    top: 50%;
+    left: 6%;
+}
+
+#instructions {
+    position: absolute;
+    top: 50%;
+    left: 82%;
+}
+
+.cell {
+    height: 70px;
+    width: 70px;
+    margin: 5px;
+    background-color: white;
+    border-radius: 50%;
+    border: 5px solid purple;
+}
+
+.redCell {
+    background-color: red;
+}
+
+.yellowCell {
+    background-color: yellow;
 }
