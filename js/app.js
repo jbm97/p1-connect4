@@ -4,7 +4,6 @@ const playerOne = "1";
 const playerTwo = "2";
 const currentPlayer = playerOne;
 const gameOver = false;
-let board;
 const rows = 6;
 const columns = 7;
 
@@ -35,32 +34,60 @@ function gameStart() {
 
 function makeBoard() {
     //set up empty board array when game start is clicked
-    let board = [];
+    const board = [];
     for (let i = 0; i < rows; i++) {
-        board.push(Array(columns).fill(0));
+        board.push(Array(columns)); //push to array with length of columns
     }
     window.board = board; // global variable for other functions
 }
 
 function drawBoard() {
-    const boardDisplay = document.getElementById("gameDisplay");
-    boardDisplay.innerHTML = ""; // clear current HTML in gameDisplay div
+    const boardDisplay = document.getElementById("game-display");
+    boardDisplay.innerHTML = ""; // clear current HTML in game-display div
 
     for (let row = 0; row < window.board.length; row++) {
         //iterate through board to create cells
         for (let columns = 0; columns < window.board[row].length; columns++) {
             const cell = document.createElement("div");
-            cell.className = "cell empty"; // create empty cell w classes for later
+            cell.className = "cell empty"; // create empty cell w classes for later. might not need this, may use images instead.
             boardDisplay.append(cell);
         }
     }
+
+    const btnCheck = document.querySelector("#home"); 
+    
+    // needed to put everything in an if statement below as
+    // without it these elements will be created whenever the button is pressed.
+    // with the if statement it only makes it when it isn't present.
+    
+    if (!btnCheck) {
+        const homeBtn = document.createElement("div");
+        homeBtn.className = "btn";
+        homeBtn.id = "home";
+        homeBtn.textContent = "Main Menu"; // delete later, going to use an image/image of text
+        homeBtn.addEventListener("click", firstLoad); // this does not work as intended yet. may need to make a new function
+
+        const newGameBtn = document.createElement("div");
+        newGameBtn.className = "btn";
+        newGameBtn.id = "new-game";
+        newGameBtn.textContent = "New Game"; // delete later, going to use an image/image of text
+        newGameBtn.addEventListener("click", clearBoard);
+
+        const body = document.body;
+        body.append(homeBtn, newGameBtn);
+    }
 } //draw out the board on screen to be used
+
+function clearBoard() {
+    drawBoard();
+}
+//reset game board when button clicked. probably could have called gameStart function instead but I don't need makeBoard again
 
 function instructions() {}
 //displays instructions when clicked. need button to go back to home.
 
 function movementHandler(e) {}
-//moves playable piece above columns until dropped into selected
+//moves playable piece above columns until dropped into selected. might not even use this, may just have the cursos become the coloured cell and you click to place.
 
 function playPiece() {}
 //place down a coloured piece
@@ -71,12 +98,11 @@ function winCheck() {}
 function drawCheck() {}
 //checks for a tie
 
-function resetGame() {}
-//start fresh game, could be the same as gameStart?
+function displayWinner() {}
+//display winner
 
 function returnHome() {} //get back to home screen if instructions are clicked
 
-//TODO: Create game tiles/cells
 //TODO: Create winner text/display
 //TODO: Create display/text for who's turn it is
 //TODO: Instructions before game start/selection screen

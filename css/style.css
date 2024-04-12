@@ -2,36 +2,68 @@ body {
     background-color: black;
 }
 
-#gameDisplay {
-    position: relative;
-    margin: 0 auto;
+#game-display {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
     display: flex;
     flex-wrap: wrap;
-    height: 540px;
-    width: 630px;
-    background-color: blue;
-    border: 5px solid purple;
+    height: 600px;
+    width: 700px;
+    background-color: rgb(140, 140, 247);
+    border: 5px solid rgb(83, 83, 247);
+}
+
+.btn {
+    position: absolute;
+    border: 2px solid black;
+}
+
+#start:hover,
+#instructions:hover,
+#home:hover,
+#new-game:hover {
+    cursor: pointer;
 }
 
 #start {
-    position: absolute;
     top: 50%;
-    left: 6%;
+    left: 4%;
 }
 
 #instructions {
-    position: absolute;
     top: 50%;
-    left: 82%;
+    left: 79%;
+}
+
+#home,
+#new-game {
+    width: 350px;
+    height: 40px;
+    color: white;
+    border-color: white;
+    top: 81.5%;
+    text-align: center;
+    align-content: center;
+}
+
+#home {
+    left: 13%;
+}
+
+#new-game {
+    left: 50.15%;
 }
 
 .cell {
-    height: 70px;
-    width: 70px;
+    height: 80px;
+    width: 80px;
     margin: 5px;
     background-color: white;
     border-radius: 50%;
-    border: 5px solid purple;
+    border: 5px solid rgb(83, 83, 247);
 }
 
 .redCell {
