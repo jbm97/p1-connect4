@@ -123,6 +123,7 @@ function mainMenu() {
 
 function clearBoard() {
     drawBoard();
+    turnCheck();
 }
 //reset game board when button clicked. probably could have called gameStart function instead but I don't need makeBoard again
 
@@ -211,14 +212,16 @@ function playPiece(e) {
             redCell.className = "red-cell";
             clickedCell.append(redCell);
             currentPlayer = playerTwo; // switch to playerTwo after placing the red piece
-            document.getElementById("game-display").style.cursor = "url('./images/yellowcursor.png'), auto"; // Switch cursor to yellow for next turn
+            document.getElementById("game-display").style.cursor =
+                "url('./images/yellowcursor.png'), auto"; // Switch cursor to yellow for next turn
         } else if (currentPlayer === playerTwo) {
             const yellowCell = document.createElement("img");
             yellowCell.src = "./images/yellowcell.png";
             yellowCell.className = "yellow-cell";
             clickedCell.append(yellowCell);
             currentPlayer = playerOne; // switch to playerOne after placing the yellow piece
-            document.getElementById("game-display").style.cursor = "url('./images/redcursor.png'), auto"; // Switch cursor to red for next turn
+            document.getElementById("game-display").style.cursor =
+                "url('./images/redcursor.png'), auto"; // Switch cursor to red for next turn
         }
     }
     turnCheck();
