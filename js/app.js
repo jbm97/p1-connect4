@@ -1,9 +1,10 @@
 //Declaring variables
 
-const playerOne = "1";
-const playerTwo = "2";
-const currentPlayer = playerOne;
-const gameOver = false;
+let playerOne = "1"; //remove quotes to match 
+let playerTwo = "2";
+let currentPlayer;
+let gameOver = false; //for displaying winner function, will need to have it run when this is changed to true
+let board; // feel like i need this for the global variable below
 const rows = 6;
 const columns = 7;
 
@@ -71,6 +72,7 @@ function drawBoard() {
     for (let row = 0; row < window.board.length; row++) {
         //iterate through board to create cells
         for (let columns = 0; columns < window.board[row].length; columns++) {
+            //add a column for every length of index row
             const cell = document.createElement("div");
             cell.className = "cell empty"; // create empty cell w classes for later. might not need this, may use images instead.
             cell.addEventListener("click", playPiece); //place down piece in cell when clicked
@@ -84,12 +86,13 @@ function drawBoard() {
     // without it these elements will be created whenever the button is pressed.
     // with the if statement it only makes it when it isn't present.
 
+    //if btncheck does not exist, do this
     if (!btnCheck) {
         const homeBtn = document.createElement("div");
         homeBtn.className = "btn";
         homeBtn.id = "home";
         homeBtn.textContent = "Main Menu"; // delete later, going to use an image/image of text
-        homeBtn.addEventListener("click", mainMenu); // this does not work as intended yet. may need to make a new function
+        homeBtn.addEventListener("click", mainMenu);
 
         const newGameBtn = document.createElement("div");
         newGameBtn.className = "btn";
@@ -99,19 +102,12 @@ function drawBoard() {
 
         document.body.append(homeBtn, newGameBtn);
     }
-
-    //custom cursor style element (red will start for now, may change this when i get to the game logic)
-    // attempted to just do document.body.style.cursor = "url('./images/redcursor.png')"; but that does not work
-    const style = document.createElement("style");
-    style.id = "red-player";
-    const rule = document.createTextNode("body { cursor: url('./images/redcursor.png'), auto; }"); //change image size at some point, add cursor to image as well
-
-    style.append(rule);
-    document.head.append(style);
+    playerStart(); //choose who starts    
 } //draw out the board on screen to be used
 
 function mainMenu() {
     document.body.innerHTML = ""; //clear entire body, then reload.
+    document.body.style.cursor = "";
     firstLoad();
 }
 //not sure if this function is needed (could be another way to achieve result) but it solved my issue.
@@ -176,21 +172,40 @@ function instructions() {
 }
 //displays instructions when clicked. need button to go back to home.
 
-function movementHandler(e) {}
-//moves playable piece above columns until dropped into selected. might not even use this, may just have the cursos become the coloured cell and you click to place.
+function playerStart() {
+    const playerStart = Math.floor(Math.random() * 2) + 1; // without +1 it seems like it's not as random, but it probably is the same
+
+    if (playerStart === 1) {
+        document.body.style.cursor = "url('./images/redcursor.png'), auto"; // i guess this does work, needs auto @ end
+        currentPlayer = playerStart;
+    } else if (playerStart === 2) {
+        document.body.style.cursor = "url('./images/yellowcursor.png'), auto";
+        currentPlayer = playerStart;
+    }
+}
+//
 
 function playPiece(e) {
     const clickedCell = e.currentTarget; //target clicked cell. had to add (e) or some parameter in function call
 
     //TODO: make it go to the lowest cell in the column. will need some sort of index, find lowest cell in the index, then place piece at bottom cell
-    if (clickedCell.childElementCount === 0) {
-        const red = document.getElementById("red-player");
 
-        if (red) {
+    if (clickedCell.childElementCount === 0) {
+        //if cell is empty...
+        if (currentPlayer === playerOne) {
             const redCell = document.createElement("img");
-            redCell.src = "./images/redcell.png"; //need to change image size
-            redCell.id = "red-cell";
+            redCell.src = "./images/redcell.png";
+            redCell.className = "red-cell";
             clickedCell.append(redCell);
+            currentPlayer = playerTwo; // switch to playerTwo after placing the red piece
+            document.body.style.cursor = "url('./images/yellowcursor.png'), auto"; // Switch cursor to yellow for next turn
+        } else if (currentPlayer === playerTwo) {
+            const yellowCell = document.createElement("img");
+            yellowCell.src = "./images/yellowcell.png";
+            yellowCell.className = "yellow-cell";
+            clickedCell.append(yellowCell);
+            currentPlayer = playerOne; // switch to playerOne after placing the yellow piece
+            document.body.style.cursor = "url('./images/redcursor.png'), auto"; // Switch cursor to red for next turn
         }
     }
 }
