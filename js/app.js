@@ -21,6 +21,9 @@ window.onload = function () {
 
 function firstLoad() {
     //make main game display/board
+    const displayContainer = document.createElement("div");
+    displayContainer.className = "display-container";
+
     const gameDisplayDiv = document.createElement("div");
     gameDisplayDiv.id = "game-display";
 
@@ -43,10 +46,9 @@ function firstLoad() {
     instructionsBtn.id = "instructions-btn";
     instructionsBtn.addEventListener("click", instructions);
 
-    gameDisplayDiv.append(img);
-    gameDisplayDiv.append(startBtn);
-    gameDisplayDiv.append(instructionsBtn);
-    document.body.append(gameDisplayDiv);
+    gameDisplayDiv.append(img, startBtn, instructionsBtn);
+    displayContainer.append(gameDisplayDiv);
+    document.body.append(displayContainer);
 }
 //initial display when page is loaded. Selection screen
 
@@ -100,7 +102,13 @@ function drawBoard() {
         newGameBtn.textContent = "New Game"; // delete later, going to use an image/image of text
         newGameBtn.addEventListener("click", clearBoard);
 
-        document.body.append(homeBtn, newGameBtn);
+        //button container
+        const buttonContainer = document.createElement("div");
+        buttonContainer.className = "button-container";
+        buttonContainer.append(homeBtn, newGameBtn);
+
+        const displayContainer = document.querySelector(".display-container");
+        displayContainer.append(buttonContainer);
     }
     playerStart(); //choose who starts
     displayTurn(); //display turn at bottom, is this really needed though? you can tell based on cursor
@@ -177,10 +185,12 @@ function playerStart() {
     const playerStart = Math.floor(Math.random() * 2) + 1; // without +1 it seems like it's not as random, but it probably is the same
 
     if (playerStart === 1) {
-        document.body.style.cursor = "url('./images/redcursor.png'), auto"; // i guess this does work, needs auto @ end
+        document.getElementById("game-display").style.cursor =
+            "url('./images/redcursor.png'), auto"; // i guess this does work, needs auto @ end. updated these to only show when hover game board instead of body.
         currentPlayer = playerStart;
     } else if (playerStart === 2) {
-        document.body.style.cursor = "url('./images/yellowcursor.png'), auto";
+        document.getElementById("game-display").style.cursor =
+            "url('./images/yellowcursor.png'), auto";
         currentPlayer = playerStart;
     }
 
@@ -201,14 +211,14 @@ function playPiece(e) {
             redCell.className = "red-cell";
             clickedCell.append(redCell);
             currentPlayer = playerTwo; // switch to playerTwo after placing the red piece
-            document.body.style.cursor = "url('./images/yellowcursor.png'), auto"; // Switch cursor to yellow for next turn
+            document.getElementById("game-display").style.cursor = "url('./images/yellowcursor.png'), auto"; // Switch cursor to yellow for next turn
         } else if (currentPlayer === playerTwo) {
             const yellowCell = document.createElement("img");
             yellowCell.src = "./images/yellowcell.png";
             yellowCell.className = "yellow-cell";
             clickedCell.append(yellowCell);
             currentPlayer = playerOne; // switch to playerOne after placing the yellow piece
-            document.body.style.cursor = "url('./images/redcursor.png'), auto"; // Switch cursor to red for next turn
+            document.getElementById("game-display").style.cursor = "url('./images/redcursor.png'), auto"; // Switch cursor to red for next turn
         }
     }
     turnCheck();
@@ -223,14 +233,15 @@ function drawCheck() {}
 
 function displayTurn() {
     const turnDivCheck = document.querySelector("#turn-div"); //check to see if this exists so it doesn't keep making it every turn
-    console.log(turnDivCheck);
     if (!turnDivCheck) {
         const turnDiv = document.createElement("div");
         turnDiv.id = "turn-div";
         const img = document.createElement("div"); //change to image later, using text for testing
         img.className = "turn-img";
 
-        document.body.append(turnDiv);
+        const displayContainer = document.querySelector(".display-container");
+
+        displayContainer.append(turnDiv);
         turnDiv.append(img);
 
         turnCheck();
@@ -240,7 +251,6 @@ function displayTurn() {
 
 function turnCheck() {
     const img = document.querySelector(".turn-img");
-    console.log(img);
     if (currentPlayer === playerOne) {
         img.textContent = "Red's Turn";
         img.id = "red-turn";
@@ -255,5 +265,4 @@ function displayWinner() {}
 
 //TODO: the actual game logic
 //TODO: Create winner text/display
-//TODO: Create display/text for who's turn it is
-//TODO: Instructions before game start/selection screen
+//TODO: Fix CSS. disaster when window size changes need to put everything into another div for flex
