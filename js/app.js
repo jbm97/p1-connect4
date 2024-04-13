@@ -25,9 +25,7 @@ function firstLoad() {
 
     //main menu background image
     const img = document.createElement("img");
-    img.src = "https://connect-4.io/data/image/options/connect4banner.jpg";
-    img.setAttribute("height", "600px");
-    img.setAttribute("width", "700px");
+    img.src = "./images/mainmenu.png";
     img.id = "homePic";
 
     //make start button
@@ -104,16 +102,19 @@ function drawBoard() {
 } //draw out the board on screen to be used
 
 function mainMenu() {
-    document.body.innerHTML = ""; //clear entire body, then reload
+    document.body.innerHTML = ""; //clear entire body, then reload.
     firstLoad();
 }
+//not sure if this function is needed (could be another way to achieve result) but it solved my issue.
 
 function clearBoard() {
     drawBoard();
 }
 //reset game board when button clicked. probably could have called gameStart function instead but I don't need makeBoard again
 
-function instructions() {}
+function instructions() {
+    
+}
 //displays instructions when clicked. need button to go back to home.
 
 function movementHandler(e) {}
