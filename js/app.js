@@ -1,6 +1,6 @@
 //Declaring variables
 
-let playerOne = 1; //remove quotes to match 
+let playerOne = 1; //remove quotes to match playerStart equalities
 let playerTwo = 2;
 let currentPlayer;
 let gameOver = false; //for displaying winner function, will need to have it run when this is changed to true
@@ -102,7 +102,8 @@ function drawBoard() {
 
         document.body.append(homeBtn, newGameBtn);
     }
-    playerStart(); //choose who starts    
+    playerStart(); //choose who starts
+    displayTurn(); //display turn at bottom, is this really needed though? you can tell based on cursor
 } //draw out the board on screen to be used
 
 function mainMenu() {
@@ -182,6 +183,8 @@ function playerStart() {
         document.body.style.cursor = "url('./images/yellowcursor.png'), auto";
         currentPlayer = playerStart;
     }
+
+    displayTurn();
 }
 //
 
@@ -208,6 +211,7 @@ function playPiece(e) {
             document.body.style.cursor = "url('./images/redcursor.png'), auto"; // Switch cursor to red for next turn
         }
     }
+    turnCheck();
 }
 //place down a coloured piece
 
@@ -217,8 +221,34 @@ function winCheck() {}
 function drawCheck() {}
 //checks for a tie
 
-function displayTurn() {}
-//display which player's turn it is
+function displayTurn() {
+    const turnDivCheck = document.querySelector("#turn-div"); //check to see if this exists so it doesn't keep making it every turn
+    console.log(turnDivCheck);
+    if (!turnDivCheck) {
+        const turnDiv = document.createElement("div");
+        turnDiv.id = "turn-div";
+        const img = document.createElement("div"); //change to image later, using text for testing
+        img.className = "turn-img";
+
+        document.body.append(turnDiv);
+        turnDiv.append(img);
+
+        turnCheck();
+    }
+}
+//display which player's turn it is at bottom of screen, might get rid of this feature, seems redundant
+
+function turnCheck() {
+    const img = document.querySelector(".turn-img");
+    console.log(img);
+    if (currentPlayer === playerOne) {
+        img.textContent = "Red's Turn";
+        img.id = "red-turn";
+    } else if (currentPlayer === playerTwo) {
+        img.textContent = "Yellow's Turn";
+        img.id = "yellow-turn";
+    }
+}
 
 function displayWinner() {}
 //display winner
