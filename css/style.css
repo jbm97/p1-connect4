@@ -2,6 +2,15 @@ body {
     background-color: black;
 }
 
+h3 {
+    text-align: center;
+}
+
+p {
+    text-align: center;
+}
+/* style these 2 later. add some sort of blur to image and stuff*/
+
 #game-display {
     position: fixed;
     top: 50%;
@@ -16,26 +25,37 @@ body {
     border: 5px solid rgb(83, 83, 247);
 }
 
-.btn {
-    position: absolute;
-    border: 2px solid black;
-}
-
 #start:hover,
-#instructions:hover,
+#instructions-btn:hover,
+#instructions-home-btn:hover,
 #home:hover,
 #new-game:hover {
     cursor: pointer;
 }
 
-#start {
-    top: 50%;
-    left: 4%;
+#start,
+#instructions-btn {
+    width: 350px;
+    height: 40px;
+    top: 80%;
+    left: 25%;
+    text-align: center;
+    align-items: center;
 }
 
-#instructions {
-    top: 50%;
-    left: 79%;
+#instructions-btn {
+top: 90%;
+}
+
+#instructions-home-btn {
+    position: absolute;
+    display: flex;
+    border: 2px solid black;
+    width: 350px;
+    height: 40px;
+    top: 90.5%;
+    left: 25%;
+
 }
 
 #home,
@@ -50,11 +70,27 @@ body {
 }
 
 #home {
-    left: 17.5%;
+    right: 50.05%
 }
 
 #new-game {
     left: 50.15%;
+}
+
+#instructions {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    height: 450px;
+    width: 525px;
+    border: solid black;
+}
+
+.btn {
+    position: absolute;
+    border: 2px solid black;
 }
 
 .cell {

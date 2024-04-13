@@ -39,7 +39,7 @@ function firstLoad() {
     const instructionsBtn = document.createElement("div");
     instructionsBtn.textContent = "How To Play";
     instructionsBtn.className = "btn";
-    instructionsBtn.id = "instructions";
+    instructionsBtn.id = "instructions-btn";
     instructionsBtn.addEventListener("click", instructions);
 
     gameDisplayDiv.append(img);
@@ -77,7 +77,7 @@ function drawBoard() {
         }
     }
 
-    const btnCheck = document.querySelector("#home"); //only need to do this for one button. if one is present so is the other.
+    const btnCheck = document.querySelector("#home"); //don't need both buttons here, but it has to be this one because it's present @ instructions screen
 
     // needed to put everything in an if statement below as
     // without it these elements will be created whenever the button is pressed.
@@ -96,8 +96,7 @@ function drawBoard() {
         newGameBtn.textContent = "New Game"; // delete later, going to use an image/image of text
         newGameBtn.addEventListener("click", clearBoard);
 
-        const body = document.body;
-        body.append(homeBtn, newGameBtn);
+        document.body.append(homeBtn, newGameBtn);
     }
 } //draw out the board on screen to be used
 
@@ -113,7 +112,57 @@ function clearBoard() {
 //reset game board when button clicked. probably could have called gameStart function instead but I don't need makeBoard again
 
 function instructions() {
-    
+    const instructions = document.getElementById("instructions-btn");
+    instructions.remove();
+    const start = document.getElementById("start");
+    start.remove();
+
+    //create instructions div with all text
+    const instructionsDiv = document.createElement("div");
+    instructionsDiv.id = "instructions";
+
+    const boardDisplay = document.getElementById("game-display");
+    boardDisplay.append(instructionsDiv);
+
+    const instructionsTitle = document.createElement("h3");
+    instructionsTitle.id = "instructions-title";
+    instructionsTitle.textContent = "How To Play:";
+    instructionsDiv.append(instructionsTitle);
+
+    const instructionsWords = document.createElement("p");
+    instructionsWords.textContent = "Try to line up four of your coloured pieces in a row!";
+
+    const instructionsWords2 = document.createElement("p");
+    instructionsWords2.textContent =
+        "Take turns selecting the column you'd like to drop your piece into. It will fall to the lowest point in the columnn.";
+
+    const instructionsWords3 = document.createElement("p");
+    instructionsWords3.textContent =
+        "The first person to get four in a row in any direction (vertical, horizontal, diagonal) wins!";
+
+    const instructionsWords4 = document.createElement("p");
+    instructionsWords4.textContent =
+        "If all of the slots are filled and nobody has four in a row it will end in a draw.";
+
+    const instructionsWords5 = document.createElement("p");
+    instructionsWords5.textContent = "Good luck have fun!";
+
+    instructionsDiv.append(
+        instructionsWords,
+        instructionsWords2,
+        instructionsWords3,
+        instructionsWords4,
+        instructionsWords5
+    );
+
+    //home button
+    const homeBtn = document.createElement("div");
+    // homeBtn.className = "btn";
+    homeBtn.id = "instructions-home-btn";
+    homeBtn.textContent = "Main Menu"; //delete later, image probably
+    homeBtn.addEventListener("click", mainMenu);
+
+    boardDisplay.append(homeBtn);
 }
 //displays instructions when clicked. need button to go back to home.
 
@@ -132,8 +181,7 @@ function drawCheck() {}
 function displayWinner() {}
 //display winner
 
-function returnHome() {} //get back to home screen if instructions are clicked
-
+//TODO: the actual game logic
 //TODO: Create winner text/display
 //TODO: Create display/text for who's turn it is
 //TODO: Instructions before game start/selection screen
