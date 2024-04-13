@@ -103,6 +103,7 @@ function drawBoard() {
     //custom cursor style element (red will start for now, may change this when i get to the game logic)
     // attempted to just do document.body.style.cursor = "url('./images/redcursor.png')"; but that does not work
     const style = document.createElement("style");
+    style.id = "red-player";
     const rule = document.createTextNode("body { cursor: url('./images/redcursor.png'), auto; }"); //change image size at some point, add cursor to image as well
 
     style.append(rule);
@@ -178,10 +179,20 @@ function instructions() {
 function movementHandler(e) {}
 //moves playable piece above columns until dropped into selected. might not even use this, may just have the cursos become the coloured cell and you click to place.
 
-function playPiece() {
-    //check to see if something exists on the game page so this function only works when required.
-    //i think i would need 2 if statements here depending on colour of cursor as that will determine turn
-    console.log("test");
+function playPiece(e) {
+    const clickedCell = e.currentTarget; //target clicked cell. had to add (e) or some parameter in function call
+
+    //TODO: make it go to the lowest cell in the column. will need some sort of index, find lowest cell in the index, then place piece at bottom cell
+    if (clickedCell.childElementCount === 0) {
+        const red = document.getElementById("red-player");
+
+        if (red) {
+            const redCell = document.createElement("img");
+            redCell.src = "./images/redcell.png"; //need to change image size
+            redCell.id = "red-cell";
+            clickedCell.append(redCell);
+        }
+    }
 }
 //place down a coloured piece
 
