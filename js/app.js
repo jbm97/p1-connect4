@@ -98,6 +98,14 @@ function drawBoard() {
 
         document.body.append(homeBtn, newGameBtn);
     }
+
+    //custom cursor style element (red will start for now, may change this when i get to the game logic)
+    // attempted to just do document.body.style.cursor = "url('./images/redcursor.png')"; but that does not work
+    const style = document.createElement("style");
+    const rule = document.createTextNode("body { cursor: url('./images/redcursor.png'), auto; }"); //change image size at some point, add cursor to image as well
+
+    style.append(rule);
+    document.head.append(style);
 } //draw out the board on screen to be used
 
 function mainMenu() {
