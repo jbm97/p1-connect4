@@ -17,12 +17,37 @@ window.onload = function () {
 };
 
 //Function set up
-function firstLoad() {
-    const startBtn = document.getElementById("start");
-    startBtn.addEventListener("click", gameStart); // When/if clicked, start the game
 
-    const instructionsBtn = document.getElementById("instructions");
-    instructionsBtn.addEventListener("click", instructions); // when/if clicked show instructions
+function firstLoad() {
+    //make main game display/board
+    const gameDisplayDiv = document.createElement("div");
+    gameDisplayDiv.id = "game-display";
+
+    //main menu background image
+    const img = document.createElement("img");
+    img.src = "https://connect-4.io/data/image/options/connect4banner.jpg";
+    img.setAttribute("height", "600px");
+    img.setAttribute("width", "700px");
+    img.id = "homePic";
+
+    //make start button
+    const startBtn = document.createElement("div");
+    startBtn.textContent = "Start Game";
+    startBtn.className = "btn";
+    startBtn.id = "start";
+    startBtn.addEventListener("click", gameStart);
+
+    //make instructions button
+    const instructionsBtn = document.createElement("div");
+    instructionsBtn.textContent = "How To Play";
+    instructionsBtn.className = "btn";
+    instructionsBtn.id = "instructions";
+    instructionsBtn.addEventListener("click", instructions);
+
+    gameDisplayDiv.append(img);
+    gameDisplayDiv.append(startBtn);
+    gameDisplayDiv.append(instructionsBtn);
+    document.body.append(gameDisplayDiv);
 }
 //initial display when page is loaded. Selection screen
 
@@ -54,12 +79,12 @@ function drawBoard() {
         }
     }
 
-    const btnCheck = document.querySelector("#home"); 
-    
+    const btnCheck = document.querySelector("#home"); //only need to do this for one button. if one is present so is the other.
+
     // needed to put everything in an if statement below as
     // without it these elements will be created whenever the button is pressed.
     // with the if statement it only makes it when it isn't present.
-    
+
     if (!btnCheck) {
         const homeBtn = document.createElement("div");
         homeBtn.className = "btn";
