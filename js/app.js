@@ -90,7 +90,7 @@ function drawBoard() {
         homeBtn.className = "btn";
         homeBtn.id = "home";
         homeBtn.textContent = "Main Menu"; // delete later, going to use an image/image of text
-        homeBtn.addEventListener("click", firstLoad); // this does not work as intended yet. may need to make a new function
+        homeBtn.addEventListener("click", mainMenu); // this does not work as intended yet. may need to make a new function
 
         const newGameBtn = document.createElement("div");
         newGameBtn.className = "btn";
@@ -102,6 +102,11 @@ function drawBoard() {
         body.append(homeBtn, newGameBtn);
     }
 } //draw out the board on screen to be used
+
+function mainMenu() {
+    document.body.innerHTML = ""; //clear entire body, then reload
+    firstLoad();
+}
 
 function clearBoard() {
     drawBoard();
