@@ -73,6 +73,7 @@ function drawBoard() {
         for (let columns = 0; columns < window.board[row].length; columns++) {
             const cell = document.createElement("div");
             cell.className = "cell empty"; // create empty cell w classes for later. might not need this, may use images instead.
+            cell.addEventListener("click", playPiece); //place down piece in cell when clicked
             boardDisplay.append(cell);
         }
     }
@@ -177,7 +178,11 @@ function instructions() {
 function movementHandler(e) {}
 //moves playable piece above columns until dropped into selected. might not even use this, may just have the cursos become the coloured cell and you click to place.
 
-function playPiece() {}
+function playPiece() {
+    //check to see if something exists on the game page so this function only works when required.
+    //i think i would need 2 if statements here depending on colour of cursor as that will determine turn
+    console.log("test");
+}
 //place down a coloured piece
 
 function winCheck() {}
@@ -185,6 +190,9 @@ function winCheck() {}
 
 function drawCheck() {}
 //checks for a tie
+
+function displayTurn() {}
+//display which player's turn it is
 
 function displayWinner() {}
 //display winner
