@@ -1,7 +1,7 @@
 //Declaring variables
 
-let playerOne = "1"; //remove quotes to match 
-let playerTwo = "2";
+let playerOne = 1; //remove quotes to match 
+let playerTwo = 2;
 let currentPlayer;
 let gameOver = false; //for displaying winner function, will need to have it run when this is changed to true
 let board; // feel like i need this for the global variable below
