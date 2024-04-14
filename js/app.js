@@ -84,6 +84,7 @@ function makeBoard() {
 function drawBoard() {
     const boardDisplay = document.getElementById("game-display");
     boardDisplay.innerHTML = ""; // clear current HTML in game-display div
+    boardDisplay.style.marginTop = "100px";
 
     //iterate through board to create cells, same loop as previous
     for (let i = 0; i < columns; i++) {

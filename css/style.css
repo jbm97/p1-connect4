@@ -12,6 +12,7 @@ p {
 /* style these 2 later. add some sort of blur to image and stuff*/
 
 #game-display {
+    margin: 0 auto;
     position: relative;
     display: flex;
     flex-wrap: wrap;
@@ -63,7 +64,7 @@ p {
 #new-game,
 #turn-div {
     display: inline-block;
-    margin: 2px;
+    margin: 2px 1px auto;
     width: 350px;
     height: 40px;
     color: white;
@@ -117,7 +118,7 @@ p {
 
 @media (max-width: 750px) {
     html {
-        display: none;
+        font-size: 50%;
     }
 }
 /* going to do somthing here when window hits this size, hoping to just shrink it all and then stop working when it's super small? */
