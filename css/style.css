@@ -15,7 +15,7 @@ p {
     position: relative;
     display: flex;
     flex-wrap: wrap;
-    height: 600px;
+    height: 575px;
     width: 700px;
     background-color: rgb(65, 65, 255);
     border: 5px solid rgb(14, 14, 180);
@@ -83,6 +83,11 @@ p {
     border: solid black;
 }
 
+#homePic {
+    height: 575px;
+    width: 700px;
+}
+
 .display-container {
     display: flex;
     flex-direction: column;
@@ -109,3 +114,10 @@ p {
     height: 80px;
     width: 80px;
 }
+
+@media (max-width: 750px) {
+    html {
+        display: none;
+    }
+}
+/* going to do somthing here when window hits this size, hoping to just shrink it all and then stop working when it's super small? */

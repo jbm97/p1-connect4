@@ -60,26 +60,43 @@ function gameStart() {
 
 function makeBoard() {
     //set up empty board array when game start is clicked
+    //     const board = [];
+    //     for (let i = 0; i < rows; i++) {
+    //         board.push(Array(columns)); //push to array with length of columns
+    //         console.log(board);
+    //     }
+    //     window.board = board; // global variable for other functions
+
+    //attempt this a different way, want to try and make columns of 6 created instead of 42 cells so it can find lowest cell easier hopefully?
     const board = [];
-    for (let i = 0; i < rows; i++) {
-        board.push(Array(columns)); //push to array with length of columns
+    for (let i = 0; i < columns; i++) {
+        // for each column create an array representing the column with 6 empty cells
+        const column = [];
+        for (let j = 0; j < rows; j++) {
+            column.push(""); // Push empty cell
+        }
+        board.push(column); //push column to board
+        console.log(board); // returns 7 arrays of length 6, i think this is what i'm looking for
     }
-    window.board = board; // global variable for other functions
+    window.board = board;
 }
 
 function drawBoard() {
     const boardDisplay = document.getElementById("game-display");
     boardDisplay.innerHTML = ""; // clear current HTML in game-display div
 
-    for (let row = 0; row < window.board.length; row++) {
-        //iterate through board to create cells
-        for (let columns = 0; columns < window.board[row].length; columns++) {
-            //add a column for every length of index row
+    //iterate through board to create cells, same loop as previous
+    for (let i = 0; i < columns; i++) {
+        const columnDiv = document.createElement("div"); //create the column divs (groups of 6) instead of 42 individual cells, need to contain the columns
+        columnDiv.className = "column-div";
+
+        for (let j = 0; j < rows; j++) {
             const cell = document.createElement("div");
-            cell.className = "cell empty"; // create empty cell w classes for later. might not need this, may use images instead.
+            cell.className = "cell";
             cell.addEventListener("click", playPiece); //place down piece in cell when clicked
-            boardDisplay.append(cell);
+            columnDiv.append(cell);
         }
+        boardDisplay.append(columnDiv);
     }
 
     const btnCheck = document.querySelector("#home"); //don't need both buttons here, but it has to be this one because it's present @ instructions screen
@@ -112,7 +129,8 @@ function drawBoard() {
     }
     playerStart(); //choose who starts
     displayTurn(); //display turn at bottom, is this really needed though? you can tell based on cursor
-} //draw out the board on screen to be used
+}
+//draw out the board on screen to be used
 
 function mainMenu() {
     document.body.innerHTML = ""; //clear entire body, then reload.
@@ -202,15 +220,32 @@ function playerStart() {
 function playPiece(e) {
     const clickedCell = e.currentTarget; //target clicked cell. had to add (e) or some parameter in function call
 
-    //TODO: make it go to the lowest cell in the column. will need some sort of index, find lowest cell in the index, then place piece at bottom cell
+    //create variable that converts HTML collection into an array of cells, then finds the column index of the clicked cell so it can check it after
+    const index = Array.from(clickedCell.parentNode.parentNode.children).indexOf(
+        clickedCell.parentNode
+    ); //need another .parentNode here now cause of new div parent
+    console.log(index);
 
-    if (clickedCell.childElementCount === 0) {
+    //find lowest cell
+    let lowestCell;
+    const columnCell = document.querySelectorAll(`.column-div:nth-child(${index + 1}) .cell`); //select all children with class .column-div in the index. need + 1 or it select's column before due to indexing
+    console.log(columnCell);
+
+    for (let i = columnCell.length - 1; i >= 0; i--) {
+        if (columnCell[i].childElementCount === 0) {
+            lowestCell = columnCell[i]; //set lowest cell to the lowest empty cell in column index
+            console.log(lowestCell);
+            break; //end loop when found
+        }
+    }
+
+    if (lowestCell) {
         //if cell is empty...
         if (currentPlayer === playerOne) {
             const redCell = document.createElement("img");
             redCell.src = "./images/redcell.png";
             redCell.className = "red-cell";
-            clickedCell.append(redCell);
+            lowestCell.append(redCell);
             currentPlayer = playerTwo; // switch to playerTwo after placing the red piece
             document.getElementById("game-display").style.cursor =
                 "url('./images/yellowcursor.png'), auto"; // Switch cursor to yellow for next turn
@@ -218,13 +253,16 @@ function playPiece(e) {
             const yellowCell = document.createElement("img");
             yellowCell.src = "./images/yellowcell.png";
             yellowCell.className = "yellow-cell";
-            clickedCell.append(yellowCell);
+            lowestCell.append(yellowCell);
             currentPlayer = playerOne; // switch to playerOne after placing the yellow piece
             document.getElementById("game-display").style.cursor =
                 "url('./images/redcursor.png'), auto"; // Switch cursor to red for next turn
         }
     }
+    console.log(board);
     turnCheck();
+    winCheck();
+    drawCheck();
 }
 //place down a coloured piece
 
@@ -268,4 +306,3 @@ function displayWinner() {}
 
 //TODO: the actual game logic
 //TODO: Create winner text/display
-//TODO: Fix CSS. disaster when window size changes need to put everything into another div for flex
