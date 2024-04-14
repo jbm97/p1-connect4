@@ -266,7 +266,20 @@ function playPiece(e) {
 }
 //place down a coloured piece
 
-function winCheck() {}
+function winCheck() {
+    //check for vertical wins
+    // if 4 of same colour in a vertical column, that colour wins. check every time a piece is placed.
+    //can probably have it search thru each column div created before to see if any have 4 of the same index in a row
+    //
+    //check for horizontal wins
+    //if 4 of samecolour in horizontal row, that colour wins. check every time a piece is placed.
+    //not entirely sure how to approach this one yet as the logic behind checking vertical columns doesn't work here.
+    //might be able to check the columns next to it at the same index?
+    //
+    //check for diagonal wins
+    //if 4 of the same colour in a diagonal direction, that colour wins. check every time placed.
+    //if i can do what i want with horizontal this should work too. will have to check the index before and after in the columns beside
+}
 //checks to see if win condition is met - Win Condition: 4 tiles in a row (horizontal, vert, or diag) Need to figure out the logic here.
 
 function drawCheck() {}
