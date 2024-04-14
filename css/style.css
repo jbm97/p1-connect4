@@ -73,15 +73,24 @@ p {
     text-align: center;
 }
 
-#instructions {
+#instructions,
+#game-over-div {
     position: absolute;
-    top: 47%;
-    left: 50%;
     transform: translate(-50%, -50%);
     -webkit-transform: translate(-50%, -50%);
     height: 450px;
     width: 525px;
     border: solid black;
+}
+
+#instructions {
+    top: 47%;
+    left: 50%;
+}
+
+#game-over-div {
+    top: 50%;
+    left: 50%;
 }
 
 #homePic {

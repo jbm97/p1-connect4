@@ -53,9 +53,9 @@ function firstLoad() {
 //initial display when page is loaded. Selection screen
 
 function gameStart() {
+    gameOver = false;
     makeBoard();
     drawBoard();
-    gameOver = false;
 }
 //starts game
 
@@ -144,9 +144,9 @@ function mainMenu() {
 //not sure if this function is needed (could be another way to achieve result) but it solved my issue.
 
 function clearBoard() {
-    gameOver = false;
     drawBoard();
     turnCheck();
+    gameOver = false;
 }
 //reset game board when button clicked. probably could have called gameStart function instead but I don't need makeBoard again
 
@@ -284,7 +284,6 @@ function winCheck() {
     //check for vertical wins
     // if 4 of same colour in a vertical column, that colour wins. check every time a piece is placed.
     //can probably have it search thru each column div created before to see if any have 4 of the same index in a row
-    //need to update the board array before doing this, getting error that board array is undefined/non existent
     for (let i = 0; i < columns; i++) {
         for (let j = 0; j < rows; j++) {
             //only need to check these conditions, for vertical win you can only win top down
@@ -304,7 +303,8 @@ function winCheck() {
     //if 4 of samecolour in horizontal row, that colour wins. check every time a piece is placed.
     //not entirely sure how to approach this one yet as the logic behind checking vertical columns doesn't work here.
     //might be able to check the columns next to it at the same index?
-    //
+    for (let i = 0; i < rows; i++) {}
+
     //check for diagonal wins
     //if 4 of the same colour in a diagonal direction, that colour wins. check every time placed.
     //if i can do what i want with horizontal this should work too. will have to check the index before and after in the columns beside
@@ -345,7 +345,32 @@ function turnCheck() {
 
 function displayWinner() {
     if (gameOver === true) {
-        alert("Winner:", currentPlayer);
+        if (currentPlayer === 2) {
+            currentPlayer = "Red";
+            document.getElementById("game-display").style.cursor =
+                "url('./images/gameoverred.png'), auto";
+        } else if (currentPlayer === 1) {
+            currentPlayer = "Yellow";
+            document.getElementById("game-display").style.cursor =
+                "url('./images/gameoveryellow.png'), auto";
+        }
+        const gameOverDiv = document.createElement("div");
+        gameOverDiv.id = "game-over-div";
+
+        const winnerText = document.createElement("p");
+        winnerText.id = "winner-text";
+        winnerText.textContent = `Game Over! ${currentPlayer} has won!`;
+
+        const boardDisplay = document.getElementById("game-display");
+        gameOverDiv.append(winnerText);
+        boardDisplay.append(gameOverDiv);
+        boardDisplay.style.marginTop = "-62px";
+
+        const cell = document.querySelectorAll(".cell");
+        cell.onclick = null; //remove event listener
+
+        const turnDisplay = document.getElementById("turn-div");
+        turnDisplay.remove();
     }
 }
 //display winner
