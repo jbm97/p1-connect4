@@ -3,7 +3,7 @@
 let playerOne = 1; //remove quotes to match playerStart equalities
 let playerTwo = 2;
 let currentPlayer;
-let gameOver = false; //for displaying winner function, will need to have it run when this is changed to true
+let gameOver; //for displaying winner function, will need to have it run when this is changed to true
 let board = []; // feel like i need this for the global variable below
 const rows = 6;
 const columns = 7;
@@ -55,6 +55,7 @@ function firstLoad() {
 function gameStart() {
     makeBoard();
     drawBoard();
+    gameOver = false;
 }
 //starts game
 
@@ -68,17 +69,17 @@ function makeBoard() {
     //     window.board = board; // global variable for other functions
 
     //attempt this a different way, want to try and make columns of 6 created instead of 42 cells so it can find lowest cell easier hopefully?
-    const board = [];
     for (let i = 0; i < columns; i++) {
         // for each column create an array representing the column with 6 empty cells
         const column = [];
         for (let j = 0; j < rows; j++) {
-            column.push(""); // Push empty cell
+            column.push(null); // Push empty cell
         }
         board.push(column); //push column to board
-        console.log(board); // returns 7 arrays of length 6, i think this is what i'm looking for
+        console.log(column);
+        console.log(board); // returns 7 arrays of length 6, i think this is what i'm looking for.
     }
-    window.board = board;
+    return board;
 }
 
 function drawBoard() {
@@ -135,6 +136,7 @@ function drawBoard() {
 //draw out the board on screen to be used
 
 function mainMenu() {
+    gameOver = false;
     document.body.innerHTML = ""; //clear entire body, then reload.
     document.body.style.cursor = "";
     firstLoad();
@@ -142,6 +144,7 @@ function mainMenu() {
 //not sure if this function is needed (could be another way to achieve result) but it solved my issue.
 
 function clearBoard() {
+    gameOver = false;
     drawBoard();
     turnCheck();
 }
@@ -263,13 +266,12 @@ function playPiece(e) {
 
         // update board array to fix error with winCheck
         // set row index equal to the index of lowest cell
-        // const indexRow = [...columnCell].indexOf(lowestCell);
-        // console.log(indexRow);
-        // console.log("columnCell length:", columnCell.length);
-        // console.log("Array.from(columnCell):", Array.from(columnCell));
-        // console.log("indexOf(lowestCell):", Array.from(columnCell).indexOf(lowestCell));
-        // console.log("indexOf(lowestCell):", [...columnCell].indexOf(lowestCell));
-        // board[indexRow][index] = currentPlayer;
+        const indexRow = [...columnCell].indexOf(lowestCell);
+        console.log(indexRow);
+        console.log("columnCell length:", columnCell.length);
+        console.log("Array.from(columnCell):", Array.from(columnCell));
+        console.log("indexOf(lowestCell):", [...columnCell].indexOf(lowestCell));
+        board[indexRow][index] = currentPlayer;
 
         turnCheck();
         winCheck();
@@ -284,16 +286,18 @@ function winCheck() {
     //can probably have it search thru each column div created before to see if any have 4 of the same index in a row
     //need to update the board array before doing this, getting error that board array is undefined/non existent
     for (let i = 0; i < columns; i++) {
-        let currentColumn = [];
         for (let j = 0; j < rows; j++) {
-            //filter thru columns, then cells in columns, then push to currentColumn array
-            currentColumn.push(board[j][i]);
-            console.log(j, i);
-        }
-        if (currentColumn.includes(currentPlayer) && currentColumn.length >= 4) {
-            gameOver = true;
-            displayWinner();
-            break;
+            //only need to check these conditions, for vertical win you can only win top down
+            if (
+                board[i][j] === currentPlayer &&
+                board[i + 1][j] === currentPlayer &&
+                board[i + 2][j] === currentPlayer &&
+                board[i + 3][j] === currentPlayer
+            ) {
+                gameOver = true;
+                displayWinner();
+                break;
+            }
         }
     }
     //check for horizontal wins
@@ -340,7 +344,9 @@ function turnCheck() {
 }
 
 function displayWinner() {
-    alert("Winner:", currentPlayer);
+    if (gameOver === true) {
+        alert("Winner:", currentPlayer);
+    }
 }
 //display winner
 
