@@ -287,6 +287,7 @@ function winCheck() {
     for (let i = 0; i < columns; i++) {
         for (let j = 0; j < rows; j++) {
             //only need to check these conditions, for vertical win you can only win top down
+            //TODO: currently does not detect a winner if there are 4 in a row in the last column
             if (
                 board[i][j] === currentPlayer &&
                 board[i + 1][j] === currentPlayer &&
@@ -303,7 +304,21 @@ function winCheck() {
     //if 4 of samecolour in horizontal row, that colour wins. check every time a piece is placed.
     //not entirely sure how to approach this one yet as the logic behind checking vertical columns doesn't work here.
     //might be able to check the columns next to it at the same index?
-    for (let i = 0; i < rows; i++) {}
+    for (let j = 0; j < rows; j++) {
+        for (let i = 0; i < columns; i++) {
+            //might need to check @ j - 1, j - 2, etc for going backwards? seems to work fine for now
+            if (
+                board[i][j] === currentPlayer &&
+                board[i][j + 1] === currentPlayer &&
+                board[i][j + 2] === currentPlayer &&
+                board[i][j + 3] === currentPlayer
+            ) {
+                gameOver = true;
+                displayWinner();
+                break;
+            }
+        }
+    }
 
     //check for diagonal wins
     //if 4 of the same colour in a diagonal direction, that colour wins. check every time placed.
@@ -344,6 +359,7 @@ function turnCheck() {
 }
 
 function displayWinner() {
+    //TODO: figure out why this keeps displaying after new game or main menu button press, it should reset gameOver to false so this doesn't come up again.
     if (gameOver === true) {
         if (currentPlayer === 2) {
             currentPlayer = "Red";
