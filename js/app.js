@@ -4,7 +4,7 @@ let playerOne = 1; //remove quotes to match playerStart equalities
 let playerTwo = 2;
 let currentPlayer;
 let gameOver = false; //for displaying winner function, will need to have it run when this is changed to true
-let board; // feel like i need this for the global variable below
+let board = []; // feel like i need this for the global variable below
 const rows = 6;
 const columns = 7;
 
@@ -84,7 +84,8 @@ function makeBoard() {
 function drawBoard() {
     const boardDisplay = document.getElementById("game-display");
     boardDisplay.innerHTML = ""; // clear current HTML in game-display div
-    boardDisplay.style.marginTop = "100px";
+    boardDisplay.style.marginTop = "150px";
+    gameOver = false; //set this here as well so it resets when New Game is pressed during the game or after someone has won
 
     //iterate through board to create cells, same loop as previous
     for (let i = 0; i < columns; i++) {
@@ -221,7 +222,7 @@ function playerStart() {
 function playPiece(e) {
     const clickedCell = e.currentTarget; //target clicked cell. had to add (e) or some parameter in function call
 
-    //create variable that converts HTML collection into an array of cells, then finds the column index of the clicked cell so it can check it after
+    //create variable that converts HTML collection into an array of cells, then finds the column index of the clicked cell so it can check it after (array for indexOf)
     const index = Array.from(clickedCell.parentNode.parentNode.children).indexOf(
         clickedCell.parentNode
     ); //need another .parentNode here now cause of new div parent
@@ -259,11 +260,21 @@ function playPiece(e) {
             document.getElementById("game-display").style.cursor =
                 "url('./images/redcursor.png'), auto"; // Switch cursor to red for next turn
         }
+
+        // update board array to fix error with winCheck
+        // set row index equal to the index of lowest cell
+        // const indexRow = [...columnCell].indexOf(lowestCell);
+        // console.log(indexRow);
+        // console.log("columnCell length:", columnCell.length);
+        // console.log("Array.from(columnCell):", Array.from(columnCell));
+        // console.log("indexOf(lowestCell):", Array.from(columnCell).indexOf(lowestCell));
+        // console.log("indexOf(lowestCell):", [...columnCell].indexOf(lowestCell));
+        // board[indexRow][index] = currentPlayer;
+
+        turnCheck();
+        winCheck();
+        drawCheck();
     }
-    console.log(board);
-    turnCheck();
-    winCheck();
-    drawCheck();
 }
 //place down a coloured piece
 
@@ -271,7 +282,20 @@ function winCheck() {
     //check for vertical wins
     // if 4 of same colour in a vertical column, that colour wins. check every time a piece is placed.
     //can probably have it search thru each column div created before to see if any have 4 of the same index in a row
-    //
+    //need to update the board array before doing this, getting error that board array is undefined/non existent
+    for (let i = 0; i < columns; i++) {
+        let currentColumn = [];
+        for (let j = 0; j < rows; j++) {
+            //filter thru columns, then cells in columns, then push to currentColumn array
+            currentColumn.push(board[j][i]);
+            console.log(j, i);
+        }
+        if (currentColumn.includes(currentPlayer) && currentColumn.length >= 4) {
+            gameOver = true;
+            displayWinner();
+            break;
+        }
+    }
     //check for horizontal wins
     //if 4 of samecolour in horizontal row, that colour wins. check every time a piece is placed.
     //not entirely sure how to approach this one yet as the logic behind checking vertical columns doesn't work here.
@@ -315,7 +339,9 @@ function turnCheck() {
     }
 }
 
-function displayWinner() {}
+function displayWinner() {
+    alert("Winner:", currentPlayer);
+}
 //display winner
 
 //TODO: the actual game logic
