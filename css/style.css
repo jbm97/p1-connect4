@@ -1,14 +1,23 @@
+html {
+    overflow: hidden;
+}
+/* get rid of scroll bar solution for now, luckily this does not affect anything else*/
+
 body {
     background: radial-gradient(
-        circle,
-        rgba(65, 65, 255, 1) 0%,
-        rgba(65, 65, 255, 1) 25%,
-        rgba(2, 0, 36, 1) 97%
-    );
+            circle,
+            rgb(65, 65, 255) 0%,
+            rgb(65, 65, 255) 15%,
+            rgb(0, 0, 0) 100%
+        )
+        no-repeat fixed;
+    background-size: cover;
 }
 
 h3,
+h2,
 p {
+    font-family: Poppins, sans-serif;
     text-align: center;
     font-size: 2.2rem;
     color: white;
@@ -16,7 +25,7 @@ p {
 }
 
 p {
-    font-size: 1.4rem;
+    font-size: 1.1rem;
 }
 
 #game-display {
@@ -83,20 +92,21 @@ p {
     position: absolute;
     transform: translate(-50%, -50%);
     -webkit-transform: translate(-50%, -50%);
-    height: 450px;
     width: 525px;
     border: solid rgb(8, 8, 102);
+    left: 50%;
+    background: rgba(8, 8, 102, 0.4);
 }
 
 #instructions {
-    background: rgba(8, 8, 102, 0.4);
     top: 47%;
-    left: 50%;
+    height: 450px;
 }
 
 #game-over-div {
+    background: rgba(8, 8, 102, 0.6);
     top: 50%;
-    left: 50%;
+    height: 125px;
 }
 
 #homePic {
@@ -105,10 +115,8 @@ p {
 }
 
 #title-img {
-    position: relative;
+    display: flex;
     margin: 0 auto;
-    margin-top: -200px;
-    margin-bottom: 20px;
     height: 150px;
     animation: floatImage 7s ease infinite;
 }
@@ -117,6 +125,10 @@ p {
 #new-game-btn-img {
     padding: 6px 0px 3px 0px;
     height: 30px;
+}
+
+#winner-text {
+    padding-top: 4px;
 }
 
 .home-buttons {
@@ -131,7 +143,7 @@ p {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    height: 100%;
 }
 
 .cell {

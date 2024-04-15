@@ -4,7 +4,7 @@ let playerOne = 1; //remove quotes to match playerStart equalities
 let playerTwo = 2;
 let currentPlayer;
 let gameOver = false; //for displaying winner function, will need to have it run when this is changed to true
-let board = []; // feel like i need this for the global variable below
+let board = [];
 const rows = 6;
 const columns = 7;
 
@@ -13,14 +13,12 @@ const mainImg = document.createElement("img");
 mainImg.src = "./images/mainpic.png";
 mainImg.id = "title-img";
 
-//TODO: Set up CPU?
+//TODO: Set up CPU? maybe next time...........
 
 //Functions & Dom Manip
 
 //Initial Load
-window.onload = function () {
-    firstLoad();
-};
+window.onload = firstLoad;
 
 //Function set up
 
@@ -43,7 +41,7 @@ function firstLoad() {
     startBtn.className = "btn";
     startBtn.id = "start";
     const startBtnImg = document.createElement("img");
-    startBtnImg.src = "./images/startgame.png"
+    startBtnImg.src = "./images/startgame.png";
     startBtnImg.className = "home-buttons";
     startBtn.append(startBtnImg);
     startBtn.addEventListener("click", gameStart);
@@ -53,7 +51,7 @@ function firstLoad() {
     instructionsBtn.className = "btn";
     instructionsBtn.id = "instructions-btn";
     const instructionsBtnImg = document.createElement("img");
-    instructionsBtnImg.src = "./images/instructions.png"
+    instructionsBtnImg.src = "./images/instructions.png";
     instructionsBtnImg.className = "home-buttons";
     instructionsBtn.append(instructionsBtnImg);
     instructionsBtn.addEventListener("click", instructions);
@@ -97,8 +95,6 @@ function makeBoard() {
 function drawBoard() {
     const boardDisplay = document.getElementById("game-display");
     boardDisplay.innerHTML = ""; // clear current HTML in game-display div
-    boardDisplay.style.marginTop = "204px";
-    boardDisplay.append(mainImg);
 
     gameOver = false; //set this here as well so it resets when New Game is pressed during the game or after someone has won
 
@@ -149,6 +145,8 @@ function drawBoard() {
 
         const displayContainer = document.querySelector(".display-container");
         displayContainer.append(buttonContainer);
+        displayContainer.prepend(mainImg);
+        mainImg.style.marginTop = "10px";
     }
     playerStart(); //choose who starts
     displayTurn(); //display turn at bottom, is this really needed though? you can tell based on cursor
@@ -177,7 +175,7 @@ function instructions() {
     instructions.remove();
     const start = document.getElementById("start");
     start.remove();
-    const homeImg = document.getElementById("homePic");
+
     homePic.style.filter = "blur(4px)";
 
     //create instructions div with all text
@@ -399,6 +397,7 @@ function displayTurn() {
     }
 }
 //display which player's turn it is at bottom of screen, might get rid of this feature, seems redundant
+//i'll keep it, looks kinda cool
 
 function turnCheck() {
     const img = document.querySelector(".turn-img");
@@ -428,14 +427,13 @@ function displayWinner() {
         const gameOverDiv = document.createElement("div");
         gameOverDiv.id = "game-over-div";
 
-        const winnerText = document.createElement("p");
+        const winnerText = document.createElement("h2");
         winnerText.id = "winner-text";
         winnerText.textContent = `Game Over! ${currentPlayer} has won!`;
 
         const boardDisplay = document.getElementById("game-display");
         gameOverDiv.append(winnerText);
         boardDisplay.append(gameOverDiv);
-        boardDisplay.style.marginTop = "-62px";
 
         const cell = document.querySelectorAll(".cell");
         cell.onclick = null; //remove event listener
