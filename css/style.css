@@ -1,5 +1,10 @@
 body {
-    background-color: black;
+    background: radial-gradient(
+        circle,
+        rgba(65, 65, 255, 1) 0%,
+        rgba(65, 65, 255, 1) 25%,
+        rgba(2, 0, 36, 1) 97%
+    );
 }
 
 h3 {
@@ -19,7 +24,7 @@ p {
     height: 575px;
     width: 700px;
     background-color: rgb(65, 65, 255);
-    border: 5px solid rgb(14, 14, 180);
+    border: 5px solid rgb(8, 8, 102);
 }
 
 #start:hover,
@@ -36,7 +41,7 @@ p {
     display: flex;
     width: 350px;
     height: 40px;
-    top: 80%;
+    top: 76%;
     left: 25%;
     justify-content: center;
     align-items: center;
@@ -44,7 +49,7 @@ p {
 }
 
 #instructions-btn {
-    top: 88%;
+    top: 85%;
 }
 
 #instructions-home-btn {
@@ -98,6 +103,20 @@ p {
     width: 700px;
 }
 
+#title-img {
+    position: relative;
+    margin: 0 auto;
+    margin-top: -200px;
+    margin-bottom: 20px;
+    height: 150px;
+    animation: floatImage 7s ease infinite;
+}
+
+#main-menu-btn-img,
+#new-game-btn-img {
+    padding: 5px 0px 2px 0px;
+}
+
 .display-container {
     display: flex;
     flex-direction: column;
@@ -114,15 +133,27 @@ p {
     height: 80px;
     width: 80px;
     margin: 5px;
-    background-color: #f5f5f5;
+    background-color: hsl(240, 100%, 95%);
     border-radius: 50%;
-    border: 5px solid rgb(14, 14, 180);
+    border: 5px solid rgb(8, 8, 102);
 }
 
 .red-cell,
 .yellow-cell {
     height: 80px;
     width: 80px;
+}
+
+@keyframes floatImage {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(10px);
+    }
+    100% {
+        transform: translateY(0);
+    }
 }
 
 @media (max-width: 750px) {

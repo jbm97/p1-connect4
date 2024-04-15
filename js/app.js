@@ -8,6 +8,11 @@ let board = []; // feel like i need this for the global variable below
 const rows = 6;
 const columns = 7;
 
+//main title image
+const mainImg = document.createElement("img");
+mainImg.src = "./images/mainpic.png";
+mainImg.id = "title-img";
+
 //TODO: Set up CPU?
 
 //Functions & Dom Manip
@@ -26,6 +31,7 @@ function firstLoad() {
 
     const gameDisplayDiv = document.createElement("div");
     gameDisplayDiv.id = "game-display";
+    gameDisplayDiv.style.marginTop = "20px";
 
     //main menu background image
     const img = document.createElement("img");
@@ -47,7 +53,7 @@ function firstLoad() {
     instructionsBtn.addEventListener("click", instructions);
 
     gameDisplayDiv.append(img, startBtn, instructionsBtn);
-    displayContainer.append(gameDisplayDiv);
+    displayContainer.append(mainImg, gameDisplayDiv);
     document.body.append(displayContainer);
 }
 //initial display when page is loaded. Selection screen
@@ -85,7 +91,9 @@ function makeBoard() {
 function drawBoard() {
     const boardDisplay = document.getElementById("game-display");
     boardDisplay.innerHTML = ""; // clear current HTML in game-display div
-    boardDisplay.style.marginTop = "150px";
+    boardDisplay.style.marginTop = "204px";
+    boardDisplay.append(mainImg);
+
     gameOver = false; //set this here as well so it resets when New Game is pressed during the game or after someone has won
 
     //iterate through board to create cells, same loop as previous
@@ -113,14 +121,20 @@ function drawBoard() {
         const homeBtn = document.createElement("div");
         homeBtn.className = "btn";
         homeBtn.id = "home";
-        homeBtn.textContent = "Main Menu"; // delete later, going to use an image/image of text
         homeBtn.addEventListener("click", mainMenu);
+        const mainMenuBtnImg = document.createElement("img");
+        mainMenuBtnImg.id = "main-menu-btn-img";
+        mainMenuBtnImg.src = "./images/mainmenubutton.png"
+        homeBtn.append(mainMenuBtnImg);
 
         const newGameBtn = document.createElement("div");
         newGameBtn.className = "btn";
         newGameBtn.id = "new-game";
-        newGameBtn.textContent = "New Game"; // delete later, going to use an image/image of text
         newGameBtn.addEventListener("click", clearBoard);
+        const newGameBtnImg = document.createElement("img");
+        newGameBtnImg.id = "new-game-btn-img";
+        newGameBtnImg.src = "./images/newgamebutton.png";
+        newGameBtn.append(newGameBtnImg);
 
         //button container
         const buttonContainer = document.createElement("div");
@@ -390,7 +404,8 @@ function displayWinner() {
     //TODO: figure out why this keeps displaying after new game or main menu button press, it should reset gameOver to false so this doesn't come up again.
     if (gameOver === true) {
         console.log(gameOver); //i don't think it's gameOver, seems to be how the board is storing cells
-        if (currentPlayer === 2) { //re-reading this confuses me because this should be 1, but switching it makes it show when yellow whens instead.
+        if (currentPlayer === 2) {
+            //re-reading this confuses me because this should be 1, but switching it makes it show when yellow whens instead.
             currentPlayer = "Red";
             document.getElementById("game-display").style.cursor =
                 "url('./images/gameoverred.png'), auto";
