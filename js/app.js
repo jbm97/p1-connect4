@@ -3,7 +3,7 @@
 let playerOne = 1; //remove quotes to match playerStart equalities
 let playerTwo = 2;
 let currentPlayer;
-let gameOver; //for displaying winner function, will need to have it run when this is changed to true
+let gameOver = false; //for displaying winner function, will need to have it run when this is changed to true
 let board = []; // feel like i need this for the global variable below
 const rows = 6;
 const columns = 7;
@@ -76,8 +76,8 @@ function makeBoard() {
             column.push(null); // Push empty cell
         }
         board.push(column); //push column to board
-        console.log(column);
-        console.log(board); // returns 7 arrays of length 6, i think this is what i'm looking for.
+        // console.log(column);
+        // console.log(board); // returns 7 arrays of length 6, i think this is what i'm looking for.
     }
     return board;
 }
@@ -136,7 +136,9 @@ function drawBoard() {
 //draw out the board on screen to be used
 
 function mainMenu() {
+    // console.log(gameOver);
     gameOver = false;
+    // console.log(gameOver);
     document.body.innerHTML = ""; //clear entire body, then reload.
     document.body.style.cursor = "";
     firstLoad();
@@ -229,17 +231,17 @@ function playPiece(e) {
     const index = Array.from(clickedCell.parentNode.parentNode.children).indexOf(
         clickedCell.parentNode
     ); //need another .parentNode here now cause of new div parent
-    console.log(index);
+    // console.log(index);
 
     //find lowest cell
     let lowestCell;
     const columnCell = document.querySelectorAll(`.column-div:nth-child(${index + 1}) .cell`); //select all children with class .column-div in the index. need + 1 or it select's column before due to indexing
-    console.log(columnCell);
+    // console.log(columnCell);
 
     for (let i = columnCell.length - 1; i >= 0; i--) {
         if (columnCell[i].childElementCount === 0) {
             lowestCell = columnCell[i]; //set lowest cell to the lowest empty cell in column index
-            console.log(lowestCell);
+            // console.log(lowestCell);
             break; //end loop when found
         }
     }
@@ -267,10 +269,10 @@ function playPiece(e) {
         // update board array to fix error with winCheck
         // set row index equal to the index of lowest cell
         const indexRow = [...columnCell].indexOf(lowestCell);
-        console.log(indexRow);
-        console.log("columnCell length:", columnCell.length);
-        console.log("Array.from(columnCell):", Array.from(columnCell));
-        console.log("indexOf(lowestCell):", [...columnCell].indexOf(lowestCell));
+        // console.log(indexRow);
+        // console.log("columnCell length:", columnCell.length);
+        // console.log("Array.from(columnCell):", Array.from(columnCell));
+        // console.log("indexOf(lowestCell):", [...columnCell].indexOf(lowestCell));
         board[indexRow][index] = currentPlayer;
 
         turnCheck();
@@ -282,8 +284,6 @@ function playPiece(e) {
 
 function winCheck() {
     //check for vertical wins
-    // if 4 of same colour in a vertical column, that colour wins. check every time a piece is placed.
-    //can probably have it search thru each column div created before to see if any have 4 of the same index in a row
     for (let i = 0; i < columns; i++) {
         for (let j = 0; j < rows; j++) {
             //only need to check these conditions, for vertical win you can only win top down
@@ -300,13 +300,12 @@ function winCheck() {
             }
         }
     }
+
     //check for horizontal wins
-    //if 4 of samecolour in horizontal row, that colour wins. check every time a piece is placed.
-    //not entirely sure how to approach this one yet as the logic behind checking vertical columns doesn't work here.
-    //might be able to check the columns next to it at the same index?
+    //use same loop, sort through rows first
     for (let j = 0; j < rows; j++) {
         for (let i = 0; i < columns; i++) {
-            //might need to check @ j - 1, j - 2, etc for going backwards? seems to work fine for now
+            //might need to check @ j - 1, j - 2, etc for going backwards? seems to work fine for now though
             if (
                 board[i][j] === currentPlayer &&
                 board[i][j + 1] === currentPlayer &&
@@ -320,9 +319,38 @@ function winCheck() {
         }
     }
 
-    //check for diagonal wins
-    //if 4 of the same colour in a diagonal direction, that colour wins. check every time placed.
-    //if i can do what i want with horizontal this should work too. will have to check the index before and after in the columns beside
+    //check for diagonal wins (will need for 2 directions, top to bottom and bottom to top)
+    //top left to bottom right, only seems to work if it is in columns 1-4
+    for (let j = 0; j < rows; j++) {
+        for (let i = 0; i <= columns; i++) {
+            if (
+                board[i][j] === currentPlayer && //uncaught TypeError here, reading 0. same error as before, but why is this line fine in the previous functions?
+                board[i + 1][j + 1] === currentPlayer &&
+                board[i + 2][j + 2] === currentPlayer &&
+                board[i + 3][j + 3] === currentPlayer
+            ) {
+                gameOver = true;
+                displayWinner();
+                break;
+            }
+        }
+    }
+    //bottom left to top right
+    //does not seem to work currently
+    for (let j = 0; j < rows; j++) {
+        for (let i = 0; i <= columns; i++) {
+            if (
+                board[i][j] === currentPlayer &&
+                board[i - 1][j + 1] === currentPlayer &&
+                board[i - 2][j + 2] === currentPlayer &&
+                board[i - 3][j + 3] === currentPlayer
+            ) {
+                gameOver = true;
+                displayWinner();
+                break;
+            }
+        }
+    }
 }
 //checks to see if win condition is met - Win Condition: 4 tiles in a row (horizontal, vert, or diag) Need to figure out the logic here.
 
@@ -361,7 +389,8 @@ function turnCheck() {
 function displayWinner() {
     //TODO: figure out why this keeps displaying after new game or main menu button press, it should reset gameOver to false so this doesn't come up again.
     if (gameOver === true) {
-        if (currentPlayer === 2) {
+        console.log(gameOver); //i don't think it's gameOver, seems to be how the board is storing cells
+        if (currentPlayer === 2) { //re-reading this confuses me because this should be 1, but switching it makes it show when yellow whens instead.
             currentPlayer = "Red";
             document.getElementById("game-display").style.cursor =
                 "url('./images/gameoverred.png'), auto";
@@ -392,4 +421,3 @@ function displayWinner() {
 //display winner
 
 //TODO: the actual game logic
-//TODO: Create winner text/display
