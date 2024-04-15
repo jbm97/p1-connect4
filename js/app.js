@@ -40,16 +40,22 @@ function firstLoad() {
 
     //make start button
     const startBtn = document.createElement("div");
-    startBtn.textContent = "Start Game";
     startBtn.className = "btn";
     startBtn.id = "start";
+    const startBtnImg = document.createElement("img");
+    startBtnImg.src = "./images/startgame.png"
+    startBtnImg.className = "home-buttons";
+    startBtn.append(startBtnImg);
     startBtn.addEventListener("click", gameStart);
 
     //make instructions button
     const instructionsBtn = document.createElement("div");
-    instructionsBtn.textContent = "How To Play";
     instructionsBtn.className = "btn";
     instructionsBtn.id = "instructions-btn";
+    const instructionsBtnImg = document.createElement("img");
+    instructionsBtnImg.src = "./images/instructions.png"
+    instructionsBtnImg.className = "home-buttons";
+    instructionsBtn.append(instructionsBtnImg);
     instructionsBtn.addEventListener("click", instructions);
 
     gameDisplayDiv.append(img, startBtn, instructionsBtn);
@@ -124,7 +130,7 @@ function drawBoard() {
         homeBtn.addEventListener("click", mainMenu);
         const mainMenuBtnImg = document.createElement("img");
         mainMenuBtnImg.id = "main-menu-btn-img";
-        mainMenuBtnImg.src = "./images/mainmenubutton.png"
+        mainMenuBtnImg.src = "./images/mainmenubutton.png";
         homeBtn.append(mainMenuBtnImg);
 
         const newGameBtn = document.createElement("div");
@@ -171,6 +177,8 @@ function instructions() {
     instructions.remove();
     const start = document.getElementById("start");
     start.remove();
+    const homeImg = document.getElementById("homePic");
+    homePic.style.filter = "blur(4px)";
 
     //create instructions div with all text
     const instructionsDiv = document.createElement("div");
@@ -212,9 +220,12 @@ function instructions() {
 
     //home button
     const homeBtn = document.createElement("div");
-    // homeBtn.className = "btn";
+    homeBtn.className = "btn";
     homeBtn.id = "instructions-home-btn";
-    homeBtn.textContent = "Main Menu"; //delete later, image probably
+    const mainMenuBtnImg = document.createElement("img");
+    mainMenuBtnImg.id = "main-menu-btn-img";
+    mainMenuBtnImg.src = "./images/mainmenubutton.png";
+    homeBtn.append(mainMenuBtnImg);
     homeBtn.addEventListener("click", mainMenu);
 
     boardDisplay.append(homeBtn);
@@ -376,7 +387,7 @@ function displayTurn() {
     if (!turnDivCheck) {
         const turnDiv = document.createElement("div");
         turnDiv.id = "turn-div";
-        const img = document.createElement("div"); //change to image later, using text for testing
+        const img = document.createElement("img"); //change to image later, using text for testing
         img.className = "turn-img";
 
         const displayContainer = document.querySelector(".display-container");
@@ -392,10 +403,10 @@ function displayTurn() {
 function turnCheck() {
     const img = document.querySelector(".turn-img");
     if (currentPlayer === playerOne) {
-        img.textContent = "Red's Turn";
+        img.src = "./images/redturn.png";
         img.id = "red-turn";
     } else if (currentPlayer === playerTwo) {
-        img.textContent = "Yellow's Turn";
+        img.src = "./images/yellowturn.png";
         img.id = "yellow-turn";
     }
 }

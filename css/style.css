@@ -7,14 +7,17 @@ body {
     );
 }
 
-h3 {
+h3,
+p {
     text-align: center;
+    font-size: 2.2rem;
+    color: white;
+    text-shadow: 2px 2px 5px black;
 }
 
 p {
-    text-align: center;
+    font-size: 1.4rem;
 }
-/* style these 2 later. add some sort of blur to image and stuff*/
 
 #game-display {
     margin: 0 auto;
@@ -39,10 +42,10 @@ p {
 #instructions-btn {
     position: absolute;
     display: flex;
-    width: 350px;
+    width: 250px;
     height: 40px;
     top: 76%;
-    left: 25%;
+    left: 32%;
     justify-content: center;
     align-items: center;
     text-align: center;
@@ -55,7 +58,6 @@ p {
 #instructions-home-btn {
     position: absolute;
     display: flex;
-    border: 2px solid black;
     width: 350px;
     height: 40px;
     top: 89.5%;
@@ -72,8 +74,6 @@ p {
     margin: 2px 1px auto;
     width: 350px;
     height: 40px;
-    color: white;
-    border: 1px solid white;
     align-content: center;
     text-align: center;
 }
@@ -85,10 +85,11 @@ p {
     -webkit-transform: translate(-50%, -50%);
     height: 450px;
     width: 525px;
-    border: solid black;
+    border: solid rgb(8, 8, 102);
 }
 
 #instructions {
+    background: rgba(8, 8, 102, 0.4);
     top: 47%;
     left: 50%;
 }
@@ -114,7 +115,15 @@ p {
 
 #main-menu-btn-img,
 #new-game-btn-img {
-    padding: 5px 0px 2px 0px;
+    padding: 6px 0px 3px 0px;
+    height: 30px;
+}
+
+.home-buttons {
+    height: 30px;
+}
+.btn:hover {
+    transform: scale(1.04);
 }
 
 .display-container {
@@ -123,10 +132,6 @@ p {
     align-items: center;
     justify-content: center;
     height: 100vh;
-}
-
-.btn {
-    border: 2px solid black;
 }
 
 .cell {
