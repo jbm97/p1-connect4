@@ -306,9 +306,9 @@ function playPiece(e) {
 
 function winCheck() {
     //check for vertical wins
-    for (let i = 0; i < columns; i++) {
-        for (let j = 0; j < rows + 1; j++) {
-            // rows + 1 to fix issue of no win with all pieces in last column, was not counting the first row, was actually working if starting on 2nd lowest row or higher.
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < columns; j++) {
+            // console.log(i, j); // don't actually need a + 1 here after adjusting loops
             if (
                 board[i][j] === currentPlayer &&
                 board[i + 1][j] === currentPlayer &&
@@ -323,9 +323,8 @@ function winCheck() {
     }
 
     //check for horizontal wins
-    //use same loop, sort through rows first
-    for (let j = 0; j < rows; j++) {
-        for (let i = 0; i < columns; i++) {
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < columns; j++) {
             if (
                 board[i][j] === currentPlayer &&
                 board[i][j + 1] === currentPlayer &&
@@ -339,14 +338,14 @@ function winCheck() {
         }
     }
 
-    //check for diagonal wins (will need for 2 directions, top to bottom and bottom to top)
+    //check for diagonal wins
     //top left to bottom right
-    for (let j = 0; j < rows; j++) {
-        for (let i = 0; i + 3 <= columns; i++) {
-            //add + 3 to i so it only checks the first 4 columns, error is no longer there and it detects a winner in all spots, success
-            console.log(i, j, currentPlayer);
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j <= columns; j++) {
+            //don't need + 3 after adjusting loops................................................
+            // console.log(i, j, currentPlayer);
             if (
-                board[i][j] === currentPlayer && 
+                board[i][j] === currentPlayer &&
                 board[i + 1][j + 1] === currentPlayer &&
                 board[i + 2][j + 2] === currentPlayer &&
                 board[i + 3][j + 3] === currentPlayer
@@ -358,14 +357,15 @@ function winCheck() {
         }
     }
     //bottom left to top right
-    for (let j = 0; j < rows; j++) {
-        for (let i = 0; i + 3 <= columns + 1; i++) {
-            // was not detecting bottom row, so adding + 1 made sense and now it works.
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j <= columns; j++) {
+            // top row cells not detected for win now after adjusting loops. 
             if (
                 board[i][j] === currentPlayer &&
-                board[i - 1][j + 1] === currentPlayer &&
-                board[i - 2][j + 2] === currentPlayer &&
-                board[i - 3][j + 3] === currentPlayer
+                board[i + 1][j - 1] === currentPlayer &&
+                board[i + 2][j - 2] === currentPlayer &&
+                board[i + 3][j - 3] === currentPlayer
+                // needed to swap the + and - around to detect top row, logic made no sense before.
             ) {
                 gameOver = true;
                 displayWinner();
@@ -440,6 +440,8 @@ function displayWinner() {
 
         const turnDisplay = document.getElementById("turn-div");
         turnDisplay.remove();
+    }
+    if (gameOver === false && drawCheck === true) {
     }
 }
 //display winner

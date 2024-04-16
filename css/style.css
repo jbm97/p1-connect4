@@ -146,6 +146,12 @@ p {
     height: 100%;
 }
 
+.button-container {
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
 .cell {
     height: 80px;
     width: 80px;
@@ -173,9 +179,15 @@ p {
     }
 }
 
-@media (max-width: 750px) {
-    html {
-        font-size: 50%;
+@media (max-width: 768px) {
+    * {
+        transform: scale(0.94);
     }
 }
-/* going to do somthing here when window hits this size, hoping to just shrink it all and then stop working when it's super small? */
+
+@media (max-width: 725px) {
+    *:not(body) {
+        display: none;
+    }
+}
+/* can't get @media to work how i imagined it, not sure I'll do much with it */
