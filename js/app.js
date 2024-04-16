@@ -66,6 +66,8 @@ function gameStart() {
     gameOver = false;
     makeBoard();
     drawBoard();
+    turnCheck();
+    removeWinnerDisplay();
 }
 //starts game
 
@@ -154,19 +156,15 @@ function drawBoard() {
 //draw out the board on screen to be used
 
 function mainMenu() {
-    // console.log(gameOver);
-    gameOver = false;
-    // console.log(gameOver);
-    document.body.innerHTML = ""; //clear entire body, then reload.
-    document.body.style.cursor = "";
-    firstLoad();
+    location.reload(); //just reloads the page, feel like this should make things easier.
 }
 //not sure if this function is needed (could be another way to achieve result) but it solved my issue.
 
 function clearBoard() {
+    board = [];
+    makeBoard();
     drawBoard();
     turnCheck();
-    gameOver = false;
 }
 //reset game board when button clicked. probably could have called gameStart function instead but I don't need makeBoard again
 
@@ -329,6 +327,7 @@ function winCheck() {
     for (let j = 0; j < rows; j++) {
         for (let i = 0; i < columns; i++) {
             //might need to check @ j - 1, j - 2, etc for going backwards? seems to work fine for now though
+            console.log(i, j, currentPlayer); // this one has the j value reading fine?
             if (
                 board[i][j] === currentPlayer &&
                 board[i][j + 1] === currentPlayer &&
@@ -346,8 +345,12 @@ function winCheck() {
     //top left to bottom right, only seems to work if it is in columns 1-4
     for (let j = 0; j < rows; j++) {
         for (let i = 0; i <= columns; i++) {
+            console.log(i, j, currentPlayer);
+            //j value is always reading 0, which gives the error
             if (
                 board[i][j] === currentPlayer && //uncaught TypeError here, reading 0. same error as before, but why is this line fine in the previous functions?
+                //seems like the issue here is that it's trying to reach values outside of the board that do not exist?
+                //this condition is not possible starting from column 4 (index 3) onward, only check for the first 4?
                 board[i + 1][j + 1] === currentPlayer &&
                 board[i + 2][j + 2] === currentPlayer &&
                 board[i + 3][j + 3] === currentPlayer
@@ -413,6 +416,7 @@ function turnCheck() {
 function displayWinner() {
     //TODO: figure out why this keeps displaying after new game or main menu button press, it should reset gameOver to false so this doesn't come up again.
     if (gameOver === true) {
+        removeWinnerDisplay();
         console.log(gameOver); //i don't think it's gameOver, seems to be how the board is storing cells
         if (currentPlayer === 2) {
             //re-reading this confuses me because this should be 1, but switching it makes it show when yellow whens instead.
@@ -435,8 +439,10 @@ function displayWinner() {
         gameOverDiv.append(winnerText);
         boardDisplay.append(gameOverDiv);
 
-        const cell = document.querySelectorAll(".cell");
-        cell.onclick = null; //remove event listener
+        const cells = document.querySelectorAll(".cell");
+        cells.forEach(function (cell) {
+            cell.removeEventListener("click", playPiece); //remove event listener, feel like i tried this before and it didn't work
+        });
 
         const turnDisplay = document.getElementById("turn-div");
         turnDisplay.remove();
@@ -444,4 +450,13 @@ function displayWinner() {
 }
 //display winner
 
-//TODO: the actual game logic
+function removeWinnerDisplay() {
+    const gameOverDiv = document.getElementById("game-over-div");
+    if (gameOverDiv) {
+        gameOverDiv.remove(); //remove the winner message if it exists
+    }
+}
+
+//TODO: figure out why winner pops up after 1 piece is played after going to menu or starting new game
+//TODO: seems like it only happens when the starting player is the winner of the previous game?
+//TODO: typeError on line 348, diagonal win check. piece still plays as normal but issue happens every time.
