@@ -7,6 +7,7 @@ let gameOver = false; //for displaying winner function, will need to have it run
 let board = [];
 const rows = 6;
 const columns = 7;
+let tie;
 
 //main title image
 const mainImg = document.createElement("img");
@@ -67,7 +68,7 @@ function gameStart() {
     makeBoard();
     drawBoard();
     turnCheck();
-    removeWinnerDisplay();
+    // removeWinnerDisplay();
 }
 //starts game
 
@@ -243,7 +244,7 @@ function playerStart() {
 
     displayTurn();
 }
-//
+//determines who is starting
 
 function playPiece(e) {
     const clickedCell = e.currentTarget; //target clicked cell. had to add (e) or some parameter in function call
@@ -306,9 +307,8 @@ function playPiece(e) {
 function winCheck() {
     //check for vertical wins
     for (let i = 0; i < columns; i++) {
-        for (let j = 0; j < rows; j++) {
-            //only need to check these conditions, for vertical win you can only win top down
-            //TODO: currently does not detect a winner if there are 4 in a row in the last column
+        for (let j = 0; j < rows + 1; j++) {
+            // rows + 1 to fix issue of no win with all pieces in last column, was not counting the first row, was actually working if starting on 2nd lowest row or higher.
             if (
                 board[i][j] === currentPlayer &&
                 board[i + 1][j] === currentPlayer &&
@@ -326,8 +326,6 @@ function winCheck() {
     //use same loop, sort through rows first
     for (let j = 0; j < rows; j++) {
         for (let i = 0; i < columns; i++) {
-            //might need to check @ j - 1, j - 2, etc for going backwards? seems to work fine for now though
-            console.log(i, j, currentPlayer); // this one has the j value reading fine?
             if (
                 board[i][j] === currentPlayer &&
                 board[i][j + 1] === currentPlayer &&
@@ -342,15 +340,13 @@ function winCheck() {
     }
 
     //check for diagonal wins (will need for 2 directions, top to bottom and bottom to top)
-    //top left to bottom right, only seems to work if it is in columns 1-4
+    //top left to bottom right
     for (let j = 0; j < rows; j++) {
-        for (let i = 0; i <= columns; i++) {
+        for (let i = 0; i + 3 <= columns; i++) {
+            //add + 3 to i so it only checks the first 4 columns, error is no longer there and it detects a winner in all spots, success
             console.log(i, j, currentPlayer);
-            //j value is always reading 0, which gives the error
             if (
-                board[i][j] === currentPlayer && //uncaught TypeError here, reading 0. same error as before, but why is this line fine in the previous functions?
-                //seems like the issue here is that it's trying to reach values outside of the board that do not exist?
-                //this condition is not possible starting from column 4 (index 3) onward, only check for the first 4?
+                board[i][j] === currentPlayer && 
                 board[i + 1][j + 1] === currentPlayer &&
                 board[i + 2][j + 2] === currentPlayer &&
                 board[i + 3][j + 3] === currentPlayer
@@ -362,9 +358,9 @@ function winCheck() {
         }
     }
     //bottom left to top right
-    //does not seem to work currently
     for (let j = 0; j < rows; j++) {
-        for (let i = 0; i <= columns; i++) {
+        for (let i = 0; i + 3 <= columns + 1; i++) {
+            // was not detecting bottom row, so adding + 1 made sense and now it works.
             if (
                 board[i][j] === currentPlayer &&
                 board[i - 1][j + 1] === currentPlayer &&
@@ -378,7 +374,7 @@ function winCheck() {
         }
     }
 }
-//checks to see if win condition is met - Win Condition: 4 tiles in a row (horizontal, vert, or diag) Need to figure out the logic here.
+//checks to see if win condition is met - Win Condition: 4 tiles in a row (horizontal, vert, or diag)
 
 function drawCheck() {}
 //checks for a tie
@@ -414,9 +410,7 @@ function turnCheck() {
 }
 
 function displayWinner() {
-    //TODO: figure out why this keeps displaying after new game or main menu button press, it should reset gameOver to false so this doesn't come up again.
     if (gameOver === true) {
-        removeWinnerDisplay();
         console.log(gameOver); //i don't think it's gameOver, seems to be how the board is storing cells
         if (currentPlayer === 2) {
             //re-reading this confuses me because this should be 1, but switching it makes it show when yellow whens instead.
@@ -449,14 +443,3 @@ function displayWinner() {
     }
 }
 //display winner
-
-function removeWinnerDisplay() {
-    const gameOverDiv = document.getElementById("game-over-div");
-    if (gameOverDiv) {
-        gameOverDiv.remove(); //remove the winner message if it exists
-    }
-}
-
-//TODO: figure out why winner pops up after 1 piece is played after going to menu or starting new game
-//TODO: seems like it only happens when the starting player is the winner of the previous game?
-//TODO: typeError on line 348, diagonal win check. piece still plays as normal but issue happens every time.
