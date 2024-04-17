@@ -1,22 +1,19 @@
 //Declaring variables
 
-let playerOne = 1; //remove quotes to match playerStart equalities
+let playerOne = 1; 
 let playerTwo = 2;
 let currentPlayer;
-let gameOver = false; //for displaying winner function, will need to have it run when this is changed to true
+let gameOver = false;
 let board = [];
 const rows = 6;
 const columns = 7;
-let tie;
 
 //main title image
 const mainImg = document.createElement("img");
 mainImg.src = "./images/mainpic.png";
 mainImg.id = "title-img";
 
-//TODO: Set up CPU? maybe next time...........
-
-//Functions & Dom Manip
+//---Functions & Dom Manip---//
 
 //Initial Load
 window.onload = firstLoad;
@@ -68,7 +65,6 @@ function gameStart() {
     makeBoard();
     drawBoard();
     turnCheck();
-    // removeWinnerDisplay();
 }
 //starts game
 

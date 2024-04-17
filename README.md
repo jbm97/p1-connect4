@@ -9,7 +9,9 @@ To play please visit <url>
 ### Install
 
 Fork and clone this repository to your local machine.
+
 Open index.html in your browser of choice.
+
 Open the files in a text editor to view or modify code as you please.
 
 ### Play
@@ -19,12 +21,18 @@ Try to connect 4 pieces in a row before your opponent. You can win in any direct
 ## How it Works
 
 This game of Connect 4 is powered almost entirely by JavaScript functions and DOM manipulation.
-The board is first created when the Start Game button is pressed, and it loads in a grid of cells with 6 rows and 7 columns. Each cell has an event listener waiting for it to be clicked so a function can be run. Here is part of the code from the drawBoard() function:
-```ruby
-const boardDisplay = document.getElementById("game-display");
-boardDisplay.innerHTML = ""; // clear current HTML in game-display div
+The board is first created when the Start Game button is pressed. It loads in a grid of cells with 6 rows and 7 columns with each cell having an event listener waiting for it to be clicked so a function can be run. This function will also call the playerStart() function which selects a random number between 1-2 to determine who starts first. Here is part of the code from the makeBoard() and drawBoard() functions on how the board is made:
 
-gameOver = false;
+```ruby
+for (let i = 0; i < columns; i++) {
+        const column = [];
+        for (let j = 0; j < rows; j++) {
+            column.push(null); // Push empty cell
+        }
+        board.push(column); //push column to board
+
+    }
+    return board;
 
 for (let i = 0; i < columns; i++) {
     const columnDiv = document.createElement("div");
@@ -40,7 +48,7 @@ for (let i = 0; i < columns; i++) {
 }
 ```
 
-This function then goes on to create the buttons on screen, but after that it calls the playPiece() function. Whenever a piece is placed, the playPiece() function is run to find the lowest empty cell in the column and update the piece in the grid. This function will also switch player's as the piece is placed.
+This function then goes on to create the buttons on screen, but after that it calls the playPiece() function. Whenever a piece is placed, the playPiece() function is run to find the lowest empty cell in the column and update the piece in the grid. This function will also switch players as the piece is placed.
 
 ```ruby
 function playPiece(e) {
@@ -170,10 +178,27 @@ function displayWinner() {
 And that is how this game functions()! When the game is over you can then start a new game by pressing the New Game button on screen which will reset/clear/remake the board, or you can go to the main menu by pressing Main Menu which will reload the page to clear all DOM manipulation and bring you back to the home screen.
 
 ## Future Considerations
+
 I initially had Player VS. CPU in mind for this, but I never attempted to get that working. I would definitely like to give it a shot if I come back to this. Have no clue how I'd go about doing that right now unless the CPU just essentially copies moves, or does complete random ones but that wouldn't seem super challenging.
+
+I had also planned to make the game change size for smaller view-width's, mainly to make it functional on a phone, but I couldn't get it working the way I wanted to. I feel like if I were to make this happen I'd just redo all of the CSS and I don't think this is a necessary feature right now.
 
 Would also like to clean up the code a bit as I know for sure I re-used lines when they probably didn't need to be, or I could have just set up more variables outside of the function scope so they can all access them when needed. I feel like I was all over the place when I started this and didn't think everything through, but it was my first time making anything like this. If I were to redo this I would just change the order in which I did things, such as do the win conditions first as it took me an entire day to figure that out just for me to realize that headache could have been avoided by making my functions in a better order/actually thinking about the game logic properly. Making the board and detecting the win conditions like I did at first seems to have clashed and caused a bunch of errors that I had to troubleshoot.
 
-## Process Work
+## Wireframe
 
-### Intitial Wireframe
+### First Draft
+
+![first draft](./ReadMeImages/wireframe1.png)
+
+This was how the game first appeard in my head. Just a simple game board, title and instructions on the side with a couple of buttons.
+
+This vision quickly changed once I realized this was probably going to look a little too busy once I added borders and colours.
+
+![second draft](./ReadMeImages/wireframe2.png)
+
+I then thought of this, where you just start at a main menu with two button options. One takes you to the start of the game, which would look similar to the first draft, and the other would bring you to a screen similar to this one, but would display instructions as well within the main game display.
+
+Everything else just kind of came to me as I was coding out the game becuase I wasn't sure at first what kind of features would be involved if any.
+
+My main vision stayed in place, but made multiple additions.

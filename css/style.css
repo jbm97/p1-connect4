@@ -189,9 +189,4 @@ p {
     }
 }
 
-@media (max-width: 725px) {
-    *:not(body) {
-        display: none;
-    }
-}
 /* can't get @media to work how i imagined it, not sure I'll do much with it */
