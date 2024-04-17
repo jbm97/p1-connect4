@@ -16,7 +16,7 @@ Open the files in a text editor to view or modify code as you please.
 
 ### Play
 
-Try to connect 4 pieces in a row before your opponent. You can win in any direction.
+Try to connect 4 pieces in a row before your opponent by clicking the column you'd like to play a piece. It will fall to the lowest empty cell in the column. To win, connect 4 pieces in a row in any direction.
 
 ## How it Works
 
