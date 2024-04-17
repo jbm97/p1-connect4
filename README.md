@@ -2,7 +2,7 @@
 
 SEBPT 220 Project 1: Connect 4
 
-To play please visit <url>
+To play please visit https://jbm97.github.io/p1-connect4/
 
 ## How To
 
