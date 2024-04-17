@@ -73,24 +73,13 @@ function gameStart() {
 //starts game
 
 function makeBoard() {
-    //set up empty board array when game start is clicked
-    //     const board = [];
-    //     for (let i = 0; i < rows; i++) {
-    //         board.push(Array(columns)); //push to array with length of columns
-    //         console.log(board);
-    //     }
-    //     window.board = board; // global variable for other functions
-
-    //attempt this a different way, want to try and make columns of 6 created instead of 42 cells so it can find lowest cell easier hopefully?
     for (let i = 0; i < columns; i++) {
-        // for each column create an array representing the column with 6 empty cells
         const column = [];
         for (let j = 0; j < rows; j++) {
             column.push(null); // Push empty cell
         }
         board.push(column); //push column to board
-        // console.log(column);
-        // console.log(board); // returns 7 arrays of length 6, i think this is what i'm looking for.
+
     }
     return board;
 }
@@ -99,11 +88,10 @@ function drawBoard() {
     const boardDisplay = document.getElementById("game-display");
     boardDisplay.innerHTML = ""; // clear current HTML in game-display div
 
-    gameOver = false; //set this here as well so it resets when New Game is pressed during the game or after someone has won
+    gameOver = false;
 
-    //iterate through board to create cells, same loop as previous
     for (let i = 0; i < columns; i++) {
-        const columnDiv = document.createElement("div"); //create the column divs (groups of 6) instead of 42 individual cells, need to contain the columns
+        const columnDiv = document.createElement("div");
         columnDiv.className = "column-div";
 
         for (let j = 0; j < rows; j++) {
@@ -252,24 +240,20 @@ function playPiece(e) {
     //create variable that converts HTML collection into an array of cells, then finds the column index of the clicked cell so it can check it after (array for indexOf)
     const index = Array.from(clickedCell.parentNode.parentNode.children).indexOf(
         clickedCell.parentNode
-    ); //need another .parentNode here now cause of new div parent
-    // console.log(index);
+    ); 
 
     //find lowest cell
     let lowestCell;
-    const columnCell = document.querySelectorAll(`.column-div:nth-child(${index + 1}) .cell`); //select all children with class .column-div in the index. need + 1 or it select's column before due to indexing
-    // console.log(columnCell);
+    const columnCell = document.querySelectorAll(`.column-div:nth-child(${index + 1}) .cell`);
 
     for (let i = columnCell.length - 1; i >= 0; i--) {
         if (columnCell[i].childElementCount === 0) {
             lowestCell = columnCell[i]; //set lowest cell to the lowest empty cell in column index
-            // console.log(lowestCell);
-            break; //end loop when found
+            break;
         }
     }
 
     if (lowestCell) {
-        //if cell is empty...
         if (currentPlayer === playerOne) {
             const redCell = document.createElement("img");
             redCell.src = "./images/redcell.png";
@@ -291,10 +275,6 @@ function playPiece(e) {
         // update board array to fix error with winCheck
         // set row index equal to the index of lowest cell
         const indexRow = [...columnCell].indexOf(lowestCell);
-        // console.log(indexRow);
-        // console.log("columnCell length:", columnCell.length);
-        // console.log("Array.from(columnCell):", Array.from(columnCell));
-        // console.log("indexOf(lowestCell):", [...columnCell].indexOf(lowestCell));
         board[indexRow][index] = currentPlayer;
 
         turnCheck();
@@ -308,7 +288,6 @@ function winCheck() {
     //check for vertical wins
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < columns; j++) {
-            // console.log(i, j); // don't actually need a + 1 here after adjusting loops
             if (
                 board[i][j] === currentPlayer &&
                 board[i + 1][j] === currentPlayer &&
@@ -342,8 +321,6 @@ function winCheck() {
     //top left to bottom right
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j <= columns; j++) {
-            //don't need + 3 after adjusting loops................................................
-            // console.log(i, j, currentPlayer);
             if (
                 board[i][j] === currentPlayer &&
                 board[i + 1][j + 1] === currentPlayer &&
@@ -359,13 +336,11 @@ function winCheck() {
     //bottom left to top right
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j <= columns; j++) {
-            // top row cells not detected for win now after adjusting loops.
             if (
                 board[i][j] === currentPlayer &&
                 board[i + 1][j - 1] === currentPlayer &&
                 board[i + 2][j - 2] === currentPlayer &&
                 board[i + 3][j - 3] === currentPlayer
-                // needed to swap the + and - around to detect top row, logic made no sense before.
             ) {
                 gameOver = true;
                 displayWinner();
@@ -423,9 +398,7 @@ function displayWinner() {
     const boardDisplay = document.getElementById("game-display");
 
     if (gameOver === true) {
-        console.log(gameOver); //i don't think it's gameOver, seems to be how the board is storing cells
         if (currentPlayer === 2) {
-            //re-reading this confuses me because this should be 1, but switching it makes it show when yellow whens instead.
             currentPlayer = "Red";
             boardDisplay.style.cursor = "url('./images/gameoverred.png'), auto";
         } else if (currentPlayer === 1) {
@@ -457,6 +430,7 @@ function displayDraw() {
     const boardDisplay = document.getElementById("game-display");
 
     boardDisplay.style.cursor = "url('./images/gameoverblue.png'), auto";
+    //need to actually make and add this image, doesn't exist yet
 
     const gameOverDiv = document.createElement("div");
     gameOverDiv.id = "game-over-div";
