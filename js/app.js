@@ -359,7 +359,7 @@ function winCheck() {
     //bottom left to top right
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j <= columns; j++) {
-            // top row cells not detected for win now after adjusting loops. 
+            // top row cells not detected for win now after adjusting loops.
             if (
                 board[i][j] === currentPlayer &&
                 board[i + 1][j - 1] === currentPlayer &&
@@ -376,7 +376,17 @@ function winCheck() {
 }
 //checks to see if win condition is met - Win Condition: 4 tiles in a row (horizontal, vert, or diag)
 
-function drawCheck() {}
+function drawCheck() {
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < columns; j++) {
+            //if there is an empty cell, the game is not a tie and is still going
+            if (board[i][j] === null) {
+                return;
+            }
+        }
+    }
+    displayDraw();
+}
 //checks for a tie
 
 function displayTurn() {
@@ -410,17 +420,17 @@ function turnCheck() {
 }
 
 function displayWinner() {
+    const boardDisplay = document.getElementById("game-display");
+
     if (gameOver === true) {
         console.log(gameOver); //i don't think it's gameOver, seems to be how the board is storing cells
         if (currentPlayer === 2) {
             //re-reading this confuses me because this should be 1, but switching it makes it show when yellow whens instead.
             currentPlayer = "Red";
-            document.getElementById("game-display").style.cursor =
-                "url('./images/gameoverred.png'), auto";
+            boardDisplay.style.cursor = "url('./images/gameoverred.png'), auto";
         } else if (currentPlayer === 1) {
             currentPlayer = "Yellow";
-            document.getElementById("game-display").style.cursor =
-                "url('./images/gameoveryellow.png'), auto";
+            boardDisplay.style.cursor = "url('./images/gameoveryellow.png'), auto";
         }
         const gameOverDiv = document.createElement("div");
         gameOverDiv.id = "game-over-div";
@@ -429,7 +439,6 @@ function displayWinner() {
         winnerText.id = "winner-text";
         winnerText.textContent = `Game Over! ${currentPlayer} has won!`;
 
-        const boardDisplay = document.getElementById("game-display");
         gameOverDiv.append(winnerText);
         boardDisplay.append(gameOverDiv);
 
@@ -441,7 +450,24 @@ function displayWinner() {
         const turnDisplay = document.getElementById("turn-div");
         turnDisplay.remove();
     }
-    if (gameOver === false && drawCheck === true) {
-    }
 }
 //display winner
+
+function displayDraw() {
+    const boardDisplay = document.getElementById("game-display");
+
+    boardDisplay.style.cursor = "url('./images/gameoverblue.png'), auto";
+
+    const gameOverDiv = document.createElement("div");
+    gameOverDiv.id = "game-over-div";
+
+    const winnerText = document.createElement("h2");
+    winnerText.id = "winner-text";
+    winnerText.textContent = `Game Over. Nobody wins!`;
+
+    const turnDisplay = document.getElementById("turn-div");
+    turnDisplay.remove();
+
+    gameOverDiv.append(winnerText);
+    boardDisplay.append(gameOverDiv);
+}

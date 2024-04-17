@@ -1,3 +1,7 @@
+* {
+    transform: scale(0.99);
+}
+
 html {
     overflow: hidden;
 }
