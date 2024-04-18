@@ -82,7 +82,7 @@ function makeBoard() {
 
 function drawBoard() {
     const boardDisplay = document.getElementById("game-display");
-    boardDisplay.innerHTML = ""; // clear current HTML in game-display div
+    boardDisplay.innerHTML = ""; 
 
     gameOver = false;
 
@@ -93,19 +93,15 @@ function drawBoard() {
         for (let j = 0; j < rows; j++) {
             const cell = document.createElement("div");
             cell.className = "cell";
-            cell.addEventListener("click", playPiece); //place down piece in cell when clicked
+            cell.addEventListener("click", playPiece);
             columnDiv.append(cell);
         }
         boardDisplay.append(columnDiv);
     }
 
-    const btnCheck = document.querySelector("#home"); //don't need both buttons here, but it has to be this one because it's present @ instructions screen
+    const btnCheck = document.querySelector("#home"); 
 
-    // needed to put everything in an if statement below as
-    // without it these elements will be created whenever the button is pressed.
-    // with the if statement it only makes it when it isn't present.
-
-    //if btncheck does not exist, do this
+    //if btncheck does not exist
     if (!btnCheck) {
         const homeBtn = document.createElement("div");
         homeBtn.className = "btn";
@@ -135,15 +131,15 @@ function drawBoard() {
         displayContainer.prepend(mainImg);
         mainImg.style.marginTop = "10px";
     }
-    playerStart(); //choose who starts
-    displayTurn(); //display turn at bottom, is this really needed though? you can tell based on cursor
+    playerStart(); 
+    displayTurn();
 }
 //draw out the board on screen to be used
 
 function mainMenu() {
-    location.reload(); //just reloads the page, feel like this should make things easier.
+    location.reload(); 
 }
-//not sure if this function is needed (could be another way to achieve result) but it solved my issue.
+// main menu button function
 
 function clearBoard() {
     board = [];
@@ -231,9 +227,8 @@ function playerStart() {
 //determines who is starting
 
 function playPiece(e) {
-    const clickedCell = e.currentTarget; //target clicked cell. had to add (e) or some parameter in function call
+    const clickedCell = e.currentTarget;
 
-    //create variable that converts HTML collection into an array of cells, then finds the column index of the clicked cell so it can check it after (array for indexOf)
     const index = Array.from(clickedCell.parentNode.parentNode.children).indexOf(
         clickedCell.parentNode
     ); 
@@ -244,7 +239,7 @@ function playPiece(e) {
 
     for (let i = columnCell.length - 1; i >= 0; i--) {
         if (columnCell[i].childElementCount === 0) {
-            lowestCell = columnCell[i]; //set lowest cell to the lowest empty cell in column index
+            lowestCell = columnCell[i];
             break;
         }
     }
@@ -263,13 +258,11 @@ function playPiece(e) {
             yellowCell.src = "./images/yellowcell.png";
             yellowCell.className = "yellow-cell";
             lowestCell.append(yellowCell);
-            currentPlayer = playerOne; // switch to playerOne after placing the yellow piece
+            currentPlayer = playerOne; 
             document.getElementById("game-display").style.cursor =
-                "url('./images/redcursor.png'), auto"; // Switch cursor to red for next turn
+                "url('./images/redcursor.png'), auto"; 
         }
 
-        // update board array to fix error with winCheck
-        // set row index equal to the index of lowest cell
         const indexRow = [...columnCell].indexOf(lowestCell);
         board[indexRow][index] = currentPlayer;
 
@@ -361,11 +354,11 @@ function drawCheck() {
 //checks for a tie
 
 function displayTurn() {
-    const turnDivCheck = document.querySelector("#turn-div"); //check to see if this exists so it doesn't keep making it every turn
+    const turnDivCheck = document.querySelector("#turn-div");
     if (!turnDivCheck) {
         const turnDiv = document.createElement("div");
         turnDiv.id = "turn-div";
-        const img = document.createElement("img"); //change to image later, using text for testing
+        const img = document.createElement("img"); 
         img.className = "turn-img";
 
         const displayContainer = document.querySelector(".display-container");
@@ -426,7 +419,6 @@ function displayDraw() {
     const boardDisplay = document.getElementById("game-display");
 
     boardDisplay.style.cursor = "url('./images/gameoverblue.png'), auto";
-    //need to actually make and add this image, doesn't exist yet
 
     const gameOverDiv = document.createElement("div");
     gameOverDiv.id = "game-over-div";
