@@ -2,7 +2,7 @@
 
 SEBPT 220 Project 1: Connect 4
 
-To play please visit <url>
+To play please visit https://jbm97.github.io/p1-connect4/
 
 ## How To
 
@@ -16,7 +16,7 @@ Open the files in a text editor to view or modify code as you please.
 
 ### Play
 
-Try to connect 4 pieces in a row before your opponent. You can win in any direction.
+Try to connect 4 pieces in a row before your opponent by clicking the column you'd like to play a piece. It will fall to the lowest empty cell in the column. To win, connect 4 pieces in a row in any direction.
 
 ## How it Works
 
@@ -202,3 +202,7 @@ I then thought of this, where you just start at a main menu with two button opti
 Everything else just kind of came to me as I was coding out the game becuase I wasn't sure at first what kind of features would be involved if any.
 
 My main vision stayed in place, but made multiple additions.
+
+## Known Issues
+
+Game does not display properly for smaller screen sizes unfortunately. On a MacBook the buttons under the game screen do not show up so you cannot reset the game or go to the menu. This was not thought of during the process as I assumed I made the display small enough to view on most displays, and this was not tested until after completion as I do not own one. It seems to be fully functional on a phone, but it is not displayed how it was intended to be. Hopefully I can get this sorted soon, but at least I know of this potential problem for future projects. 
