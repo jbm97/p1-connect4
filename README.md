@@ -202,3 +202,7 @@ I then thought of this, where you just start at a main menu with two button opti
 Everything else just kind of came to me as I was coding out the game becuase I wasn't sure at first what kind of features would be involved if any.
 
 My main vision stayed in place, but made multiple additions.
+
+## Known Issues
+
+Game does not display properly for smaller screen sizes unfortunately. On a MacBook the buttons under the game screen do not show up so you cannot reset the game or go to the menu. This was not thought of during the process as I assumed I made the display small enough to view on most displays, and this was not tested until after completion as I do not own one. It seems to be fully functional on a phone, but it is not displayed how it was intended to be. Hopefully I can get this sorted soon, but at least I know of this potential problem for future projects. 
